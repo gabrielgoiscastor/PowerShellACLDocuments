@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PowerShellACLDocuments
+namespace PowerShellACLDocuments.ActionForms
 {
-    public partial class Form1 : Form
+    public partial class ACLForm : Form
     {
-        public Form1()
+        public ACLForm()
         {
             InitializeComponent();
         }
