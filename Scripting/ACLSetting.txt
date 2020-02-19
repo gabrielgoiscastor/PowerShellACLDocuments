@@ -1,0 +1,12 @@
+﻿$path = $basePath$actionPath #Replace with whatever file you want to do this to.
+$user = $user #User account to grant permisions too.
+$Rights = $rights #Comma seperated list.
+$InheritSettings = ""None"" #Controls how permissions are inherited by children
+$PropogationSettings = ""InheritOnly"" #Usually set to none but can setup rules that only apply to children.
+$RuleType = ""Allow"" #Allow or Deny.
+
+$acl = Get-Acl $path
+$perm = $user, $Rights, $InheritSettings, $PropogationSettings, $RuleType
+$rule = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList $perm
+$acl.SetAccessRule($rule)
+$acl | Set-Acl -Path $path

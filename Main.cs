@@ -1,9 +1,12 @@
-﻿using PowerShellACLDocuments.DataModeling;
+﻿using Newtonsoft.Json;
+using PowerShellACLDocuments.DataModeling;
+using PowerShellACLDocuments.JsonMapping;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,9 +40,16 @@ namespace PowerShellACLDocuments
             this.btnInputBase.Hide();
 
             this.aclForm.FormClosing += AclForm_FormClosing;
+            this.aclForm.VisibleChanged += AuxForm_VisibleChanged;
+
+            if(this.saveFileDialog.FileName != "")
+            {
+                this.openFile(saveFileDialog.FileName);
+            }
         }
 
         string baseTitle = "";
+        string filePath = "";
         bool savePending = false;
         List<Control> clearableInterfaces = new List<Control>();
 
@@ -57,40 +67,62 @@ namespace PowerShellACLDocuments
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            openFileDialog.ShowDialog();
+        }
 
+        private void openFileDialog_FileOk(object sender, CancelEventArgs e)
+        {
+            this.openFile(openFileDialog.FileName);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(filePath == "")
+            {
+                saveFileDialog.ShowDialog();
+                filePath = saveFileDialog.FileName;
+            }
 
+            if(filePath == "")
+            {
+                return;
+            }
+
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(this.package);
+
+            File.WriteAllText(filePath, json);
+
+            this.somethingChange(true);
+        }
+
+        private void openFile(string path)
+        {
+            try
+            {
+                this.filePath = path;
+                string fileContent = File.ReadAllText(this.filePath);
+                JsonConverter[] converters = { new ActionContract() };
+                Package pack = JsonConvert.DeserializeObject<Package>(fileContent, new JsonSerializerSettings() { Converters = converters });
+                this.package = pack;
+                this.renderEverything();
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show("Impossible to read file", err.Message);
+            }
+            
+        }
+
+        private void renderEverything()
+        {
+            txtName.Text = package.Name;
+            txtPath.Text = package.BasePath;
+            this.renderActions();
         }
 
         #endregion
 
         #region tools menu actions
-
-        private void toolBtnNewACL_Click(object sender, EventArgs e)
-        {
-            this.aclForm.initialize(null);
-            this.aclForm.Show();
-            this.Hide();
-        }
-
-        private void AclForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            e.Cancel = true;
-            this.aclForm.Hide();
-            this.Show();
-
-            if(this.aclForm.executed == false)
-            {
-                return;
-            }
-
-            if(latestUpdated == -1) {
-                this.newAction(this.aclForm.aclSetting);
-            }
-        }
 
         private void toolBtnNewFileCopy_Click(object sender, EventArgs e)
         {
@@ -129,8 +161,14 @@ namespace PowerShellACLDocuments
             }
         }
 
-        private void somethingChange()
+        private void somethingChange(bool? clear)
         {
+            if(clear.HasValue && clear.Value)
+            {
+                this.savePending = false;
+                this.Text = this.baseTitle;
+                return;
+            }
             this.savePending = true;
             this.Text = this.baseTitle + "*";
         }
@@ -141,7 +179,9 @@ namespace PowerShellACLDocuments
 
         private void txtBox_TextChanged(object sender, EventArgs e)
         {
-            this.somethingChange();
+            this.somethingChange(false);
+            this.package.Name = txtName.Text;
+            this.package.BasePath = txtPath.Text;
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -151,6 +191,16 @@ namespace PowerShellACLDocuments
                 e.Cancel = true;
                 return;
             }
+        }
+
+        private void AuxForm_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                this.Hide();
+                return;
+            }
+            this.Show();
         }
 
         #endregion
@@ -164,15 +214,6 @@ namespace PowerShellACLDocuments
             Button newBtn = copyModelObject(parameter.Name + " | " + parameter.IsInput.ToString(), this.btnInputBase, splitContainer.Panel1);
 
             splitContainer.Panel1.Controls.Add(newBtn);
-        }
-
-        public void newAction(BaseAction action)
-        {
-            this.btnActionBase.Hide();
-
-            Button newBtn = copyModelObject(action.ActionType + " | " + action.ToString(), this.btnActionBase, splitContainer.Panel2);
-
-            splitContainer.Panel2.Controls.Add(newBtn);
         }
 
         private Button copyModelObject(string text, Button baseButton, Panel container)
@@ -191,6 +232,78 @@ namespace PowerShellACLDocuments
             };
 
             return newBtn;
+        }
+
+        #endregion
+
+        #region actions methods
+
+        private void toolBtnNewACL_Click(object sender, EventArgs e)
+        {
+            this.latestUpdated = -1;
+            this.aclForm.initialize(null);
+            this.aclForm.Show();
+        }
+
+        private void editAction_Click(object sender, EventArgs e, BaseAction action)
+        {
+            this.latestUpdated = this.package.Actions.IndexOf(action);
+
+            if(action is ACLSetting)
+            {
+                this.aclForm.initialize(action as ACLSetting);
+                this.aclForm.Show();
+            }
+        }
+
+        private void AclForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            this.aclForm.Hide();
+            this.Show();
+            this.Focus();
+
+            if (this.aclForm.executed == false)
+            {
+                return;
+            }
+
+            if (latestUpdated == -1)
+            {
+                this.package.Actions.Add(this.aclForm.aclSetting);
+            }
+            else if (this.aclForm.delete)
+            {
+                this.package.Actions.RemoveAt(latestUpdated);
+            }
+            else
+            {
+                this.package.Actions[latestUpdated] = this.aclForm.aclSetting;
+            }
+            this.renderActions();
+        }
+
+        public void renderActions()
+        {
+            this.btnActionBase.Hide();
+
+            for (int i = splitContainer.Panel2.Controls.Count - 1; i >=0 ; i--)
+            {
+                Control control = splitContainer.Panel2.Controls[i];
+                if ((control as Button).Name == "btnActionBase")
+                {
+                    continue;
+                }
+                splitContainer.Panel2.Controls.Remove(control);
+            }
+
+            for (int i = 0; i < package.Actions.Count; i++)
+            {
+                BaseAction action = this.package.Actions[i];
+                Button newBtn = copyModelObject(action.ToString(), this.btnActionBase, splitContainer.Panel2);
+                newBtn.Click += (sender, e) => editAction_Click(sender, e, action);
+                splitContainer.Panel2.Controls.Add(newBtn);
+            }
         }
 
         #endregion

@@ -14,6 +14,7 @@ namespace PowerShellACLDocuments.ActionForms
     {
         public DataModeling.ACLSetting aclSetting;
         public bool executed = false;
+        public bool delete = false;
 
         public ACLForm()
         {
@@ -23,11 +24,14 @@ namespace PowerShellACLDocuments.ActionForms
         public void initialize(DataModeling.ACLSetting aclSetting)
         {
             executed = false;
+            delete = false;
             if (aclSetting == null)
             {
                 this.clearForm();
+                this.btnDelete.Hide();
                 return;
             }
+            this.btnDelete.Show();
             this.aclSetting = aclSetting;
             this.txtPath.Text = aclSetting.Path;
             this.txtWho.Text = aclSetting.ForWho;
@@ -136,6 +140,17 @@ namespace PowerShellACLDocuments.ActionForms
         private void errorMessage(string text)
         {
             MessageBox.Show(text, "Validation Error");
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if(MessageBox.Show("Sure?", "Deleting...", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+            {
+                return;
+            }
+            delete = true;
+            executed = true;
+            this.Close();
         }
     }
 }

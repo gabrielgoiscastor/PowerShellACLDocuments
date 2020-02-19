@@ -36,7 +36,7 @@ namespace PowerShellACLDocuments.DataModeling
 
         public override string ToString()
         {
-            string returnObj = this.Path + " | " + this.ForWho + " | Levels: " + Regex.Matches(Path, "\\").Count;
+            string returnObj = this.Path + " | " + this.ForWho + " | Levels: " + Regex.Matches(Path, "/").Count;
             return returnObj;
         }
 

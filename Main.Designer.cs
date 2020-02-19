@@ -37,6 +37,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.btnInputBase = new System.Windows.Forms.Button();
+            this.btnActionBase = new System.Windows.Forms.Button();
             this.actionsStrip = new System.Windows.Forms.ToolStrip();
             this.toolBtnNewACL = new System.Windows.Forms.ToolStripButton();
             this.toolBtnNewFileCopy = new System.Windows.Forms.ToolStripButton();
@@ -46,7 +47,8 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.txtPath = new System.Windows.Forms.TextBox();
             this.btnGeneratePS = new System.Windows.Forms.Button();
-            this.btnActionBase = new System.Windows.Forms.Button();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -80,7 +82,7 @@
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -88,7 +90,7 @@
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -96,7 +98,7 @@
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -110,7 +112,7 @@
             this.panel1.Controls.Add(this.actionsStrip);
             this.panel1.Location = new System.Drawing.Point(12, 98);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(632, 231);
+            this.panel1.Size = new System.Drawing.Size(632, 249);
             this.panel1.TabIndex = 1;
             // 
             // splitContainer
@@ -128,7 +130,7 @@
             // 
             this.splitContainer.Panel2.AutoScroll = true;
             this.splitContainer.Panel2.Controls.Add(this.btnActionBase);
-            this.splitContainer.Size = new System.Drawing.Size(632, 206);
+            this.splitContainer.Size = new System.Drawing.Size(632, 224);
             this.splitContainer.SplitterDistance = 210;
             this.splitContainer.TabIndex = 3;
             // 
@@ -143,6 +145,18 @@
             this.btnInputBase.TabIndex = 0;
             this.btnInputBase.Text = "Input | Input";
             this.btnInputBase.UseVisualStyleBackColor = false;
+            // 
+            // btnActionBase
+            // 
+            this.btnActionBase.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnActionBase.BackColor = System.Drawing.SystemColors.Control;
+            this.btnActionBase.Location = new System.Drawing.Point(3, 3);
+            this.btnActionBase.Name = "btnActionBase";
+            this.btnActionBase.Size = new System.Drawing.Size(412, 41);
+            this.btnActionBase.TabIndex = 1;
+            this.btnActionBase.Text = "Action Base";
+            this.btnActionBase.UseVisualStyleBackColor = false;
             // 
             // actionsStrip
             // 
@@ -213,7 +227,7 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(552, 20);
             this.txtName.TabIndex = 4;
-            this.txtName.TextChanged += new System.EventHandler(this.txtBox_TextChanged);
+            this.txtName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBox_TextChanged);
             // 
             // txtPath
             // 
@@ -223,35 +237,36 @@
             this.txtPath.Name = "txtPath";
             this.txtPath.Size = new System.Drawing.Size(552, 20);
             this.txtPath.TabIndex = 5;
-            this.txtPath.TextChanged += new System.EventHandler(this.txtBox_TextChanged);
+            this.txtPath.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBox_TextChanged);
             // 
             // btnGeneratePS
             // 
             this.btnGeneratePS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGeneratePS.Location = new System.Drawing.Point(469, 336);
+            this.btnGeneratePS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnGeneratePS.Location = new System.Drawing.Point(469, 353);
             this.btnGeneratePS.Name = "btnGeneratePS";
-            this.btnGeneratePS.Size = new System.Drawing.Size(175, 23);
+            this.btnGeneratePS.Size = new System.Drawing.Size(175, 40);
             this.btnGeneratePS.TabIndex = 6;
             this.btnGeneratePS.Text = "Generate PowerShell Script";
-            this.btnGeneratePS.UseVisualStyleBackColor = true;
+            this.btnGeneratePS.UseVisualStyleBackColor = false;
             // 
-            // btnActionBase
+            // openFileDialog
             // 
-            this.btnActionBase.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnActionBase.BackColor = System.Drawing.SystemColors.Control;
-            this.btnActionBase.Location = new System.Drawing.Point(3, 3);
-            this.btnActionBase.Name = "btnActionBase";
-            this.btnActionBase.Size = new System.Drawing.Size(412, 41);
-            this.btnActionBase.TabIndex = 1;
-            this.btnActionBase.Text = "Action Base";
-            this.btnActionBase.UseVisualStyleBackColor = false;
+            this.openFileDialog.DefaultExt = "*.json";
+            this.openFileDialog.RestoreDirectory = true;
+            this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.DefaultExt = "json";
+            this.saveFileDialog.RestoreDirectory = true;
+            this.saveFileDialog.Title = "Save PS configuration";
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(656, 371);
+            this.ClientSize = new System.Drawing.Size(656, 405);
             this.Controls.Add(this.btnGeneratePS);
             this.Controls.Add(this.txtPath);
             this.Controls.Add(this.txtName);
@@ -298,5 +313,7 @@
         private System.Windows.Forms.Button btnGeneratePS;
         private System.Windows.Forms.Button btnInputBase;
         private System.Windows.Forms.Button btnActionBase;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
 }
