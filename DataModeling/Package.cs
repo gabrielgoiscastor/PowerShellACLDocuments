@@ -14,5 +14,11 @@ namespace PowerShellACLDocuments.DataModeling
         public List<Parameter> Parameters { get; set; }
 
         public List<BaseAction> Actions { get; set; }
+
+        public Package()
+        {
+            this.Parameters = new List<Parameter>();
+            this.Actions = new List<BaseAction>();
+        }
     }
 }

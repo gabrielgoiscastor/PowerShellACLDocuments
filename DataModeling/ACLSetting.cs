@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace PowerShellACLDocuments.DataModeling
@@ -32,6 +33,12 @@ namespace PowerShellACLDocuments.DataModeling
         public bool ReadPermissions { get; set; }
         public bool ChangePermissions { get; set; }
         public bool TakeOwnership { get; set; }
+
+        public override string ToString()
+        {
+            string returnObj = this.Path + " | " + this.ForWho + " | Levels: " + Regex.Matches(Path, "\\").Count;
+            return returnObj;
+        }
 
     }
 }
