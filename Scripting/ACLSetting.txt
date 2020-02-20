@@ -1,12 +1,15 @@
-﻿$path = $basePath$actionPath #Replace with whatever file you want to do this to.
-$user = $user #User account to grant permisions too.
-$Rights = $rights #Comma seperated list.
-$InheritSettings = ""None"" #Controls how permissions are inherited by children
-$PropogationSettings = ""InheritOnly"" #Usually set to none but can setup rules that only apply to children.
-$RuleType = ""Allow"" #Allow or Deny.
+﻿$path = "@basePath@actionPath" #Replace with whatever file you want to do this to.
+$user = "@who" #User account to grant permisions too.
+$Rights = "@rights" #Comma seperated list.
+# this is useful to determine how to configure this objects
+# https://developers.de/blogs/damir_dobric/archive/2007/06/18/directory-security-and-access-rules.aspx
+# https://stackoverflow.com/questions/3282656/setting-inheritance-and-propagation-flags-with-set-acl-and-powershell
+$InheritSettings = "@inherit" #Controls how permissions are inherited by children
+$PropagationSettings = "@propagation" #Usually set to none but can setup rules that only apply to children.
+$RuleType = "@allowDeny" #Allow or Deny.
 
 $acl = Get-Acl $path
-$perm = $user, $Rights, $InheritSettings, $PropogationSettings, $RuleType
+$perm = $user, $Rights, $InheritSettings, $PropagationSettings, $RuleType
 $rule = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList $perm
 $acl.SetAccessRule($rule)
 $acl | Set-Acl -Path $path
