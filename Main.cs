@@ -39,15 +39,55 @@ namespace PowerShellACLDocuments
             this.aclForm.FormClosing += AclForm_FormClosing;
             this.aclForm.VisibleChanged += AuxForm_VisibleChanged;
 
-            if(this.saveFileDialog.FileName != "")
+            getSettings();
+
+            if(settings.LatestFile != "")
             {
+                this.saveFileDialog.FileName = settings.LatestFile;
                 this.openFile(saveFileDialog.FileName);
+                this.somethingChange(true);
+
+                //if (MessageBox.Show("Should I load the latest file?", "Load latest", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                //{
+                //}
             }
+        }
+
+        private void getSettings()
+        {
+            FileInfo info = new FileInfo(this.settingsFileName);
+            if (info.Exists == false)
+            {
+                setSettings();
+                return;
+            }
+
+            try
+            {
+                this.settings = Newtonsoft.Json.JsonConvert.DeserializeObject<psACLSettings>(File.ReadAllText(this.settingsFileName));
+            }catch(Exception err)
+            {
+                setSettings();
+            }
+        }
+
+        private void setSettings()
+        {
+            if(this.settings == null)
+            {
+                this.settings = new psACLSettings() { LatestFile = "" };
+            }
+            string serializedSettings = JsonConvert.SerializeObject(this.settings);
+            File.WriteAllText(this.settingsFileName, serializedSettings);
+
+            this.somethingChange(true);
         }
 
         string baseTitle = "";
         string filePath = "";
         bool savePending = false;
+        string settingsFileName = AppDomain.CurrentDomain.BaseDirectory + "\\settings.json";
+        psACLSettings settings = null;
         string baseConfigFor = "";
         string invalidCharsForFolderName = "\\*!@#$%^&*()ãàéèóòõíìúùÃÀÉÈÓÒÕÍÌÚÙ";
         List<Control> clearableInterfaces = new List<Control>();
@@ -100,7 +140,8 @@ namespace PowerShellACLDocuments
 
             File.WriteAllText(filePath, json);
 
-            this.somethingChange(true);
+            settings.LatestFile = filePath;
+            this.setSettings();
         }
 
         private void openFile(string path)
@@ -195,14 +236,19 @@ namespace PowerShellACLDocuments
 
         private void somethingChange(bool? clear)
         {
-            if(clear.HasValue && clear.Value)
+            this.Text = this.baseTitle;
+            if (saveFileDialog.FileName != "")
+            {
+                this.Text += " " + saveFileDialog.FileName;
+            }
+
+            if (clear.HasValue && clear.Value)
             {
                 this.savePending = false;
-                this.Text = this.baseTitle;
                 return;
             }
             this.savePending = true;
-            this.Text = this.baseTitle + "*";
+            this.Text += " *";
         }
 
         #endregion
