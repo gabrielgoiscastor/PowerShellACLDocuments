@@ -33,7 +33,6 @@ namespace PowerShellACLDocuments.ActionForms
             }
             this.btnDelete.Show();
             this.aclSetting = aclSetting;
-            this.txtPath.Text = aclSetting.Path;
             this.txtWho.Text = aclSetting.ForWho;
             cbbLevel.SelectedItem = aclSetting.PermissionLevel;
 
@@ -65,7 +64,6 @@ namespace PowerShellACLDocuments.ActionForms
         public void clearForm()
         {
             this.aclSetting = new DataModeling.ACLSetting();
-            this.txtPath.Text = "";
             this.txtWho.Text = "";
             cbbLevel.SelectedItem = "Select";
 
@@ -90,11 +88,6 @@ namespace PowerShellACLDocuments.ActionForms
         private void btnComplete_Click(object sender, EventArgs e)
         {
             #region validations
-            if(txtPath.Text == "")
-            {
-                errorMessage("Define path");
-                return;
-            }
             if (txtWho.Text == "")
             {
                 errorMessage("Define who");
@@ -116,7 +109,6 @@ namespace PowerShellACLDocuments.ActionForms
 
             aclSetting.ForWho = this.txtWho.Text;
             aclSetting.PermissionType = this.rdbAllow.Checked;
-            aclSetting.Path = this.txtPath.Text;
             aclSetting.PermissionLevel = this.cbbLevel.SelectedItem.ToString();
 
             aclSetting.ChangePermissions = this.chkChangePermissions.Checked;

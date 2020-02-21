@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PowerShellACLDocuments.Automators;
 using PowerShellACLDocuments.DataModeling;
 using PowerShellACLDocuments.JsonMapping;
 using PowerShellACLDocuments.Scripting;
@@ -30,11 +31,10 @@ namespace PowerShellACLDocuments
             this.baseTitle = this.Text;
             baseConfigFor = lblConfigsFor.Text;
             lblConfigsFor.Text = "";
-            btnClearSelection.Hide();
-
             btnInputBase.Hide();
             btnActionBase.Hide();
             btnDeleteFolder.Hide();
+            btnClearSelection.Hide();
 
             this.aclForm.FormClosing += AclForm_FormClosing;
             this.aclForm.VisibleChanged += AuxForm_VisibleChanged;
@@ -136,6 +136,20 @@ namespace PowerShellACLDocuments
                 var newFolder = collection.Add(folder.Name);
                 addFolders(folder.Folders, newFolder.Nodes);
             });
+        }
+
+        private void newFromExistingFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.folderDialog.ShowDialog();
+            string path = this.folderDialog.FileName;
+
+            path = path.Replace("Select a folder", "");
+
+            ConvertDirectoryStructure converter = new ConvertDirectoryStructure();
+
+            this.package.Folders = converter.readFolder(path);
+
+            this.renderEverything();
         }
 
         #endregion
@@ -246,7 +260,8 @@ namespace PowerShellACLDocuments
                     Y = (baseButton.Location.Y + baseButton.Size.Height) * (container.Controls.Count - 1) + 3
                 },
                 BackColor = baseButton.BackColor,
-                Anchor = baseButton.Anchor
+                Anchor = baseButton.Anchor,
+                TextAlign = baseButton.TextAlign
             };
 
             return newBtn;
@@ -286,6 +301,11 @@ namespace PowerShellACLDocuments
                 return;
             }
 
+            if(workingFolder.Actions == null)
+            {
+                workingFolder.Actions = new List<BaseAction>();
+            }
+
             if (latestUpdated == -1)
             {
                 workingFolder.Actions.Add(this.aclForm.aclSetting);
@@ -315,6 +335,11 @@ namespace PowerShellACLDocuments
                     continue;
                 }
                 targetPanel.Controls.Remove(control);
+            }
+
+            if(workingFolder.Actions == null || workingFolder.Actions.Count == 0)
+            {
+                return;
             }
 
             for (int i = 0; i < workingFolder.Actions.Count; i++)
@@ -349,13 +374,14 @@ namespace PowerShellACLDocuments
         #endregion
 
         #region folders actions
-        private void toolStripNewFolder_Click(object sender, EventArgs e)
+
+        private void btnNewFolder_Click(object sender, EventArgs e)
         {
             string folderName = null;
 
-            while(folderName == null || validFolderName(folderName) == false)
+            while (folderName == null || validFolderName(folderName) == false)
             {
-                if(folderName != null)
+                if (folderName != null)
                 {
                     MessageBox.Show("Invalid folder name");
                 }
@@ -409,6 +435,7 @@ namespace PowerShellACLDocuments
             btnClearSelection.Show();
             btnDeleteFolder.Show();
             workingFolder = package.FindFolder(foldersTree.SelectedNode.FullPath);
+            renderActions();
         }
 
         private void btnClearSelection_Click(object sender, EventArgs e)
@@ -416,6 +443,7 @@ namespace PowerShellACLDocuments
             lblConfigsFor.Text = "";
             foldersTree.SelectedNode = null;
             btnClearSelection.Hide();
+            btnDeleteFolder.Hide();
         }
 
         private void deleteFolder()
@@ -444,6 +472,21 @@ namespace PowerShellACLDocuments
                 return;
             }
             this.deleteFolder();
+        }
+
+        bool expanded = false;
+
+        private void btnExpandCollapse_Click(object sender, EventArgs e)
+        {
+            if (!expanded)
+            {
+                foldersTree.ExpandAll();
+            }
+            else
+            {
+                foldersTree.CollapseAll();
+            }
+            expanded = !expanded;
         }
     }
 }

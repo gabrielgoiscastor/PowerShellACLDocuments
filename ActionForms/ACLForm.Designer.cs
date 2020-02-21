@@ -30,8 +30,6 @@
         {
             this.chkFullControl = new System.Windows.Forms.CheckBox();
             this.btnComplete = new System.Windows.Forms.Button();
-            this.lblPath = new System.Windows.Forms.Label();
-            this.txtPath = new System.Windows.Forms.TextBox();
             this.lblPermissionLevel = new System.Windows.Forms.Label();
             this.cbbLevel = new System.Windows.Forms.ComboBox();
             this.rdbAllow = new System.Windows.Forms.RadioButton();
@@ -55,6 +53,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.lblPath = new System.Windows.Forms.Label();
+            this.lblRealPath = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -80,24 +80,6 @@
             this.btnComplete.Text = "Apply and Close";
             this.btnComplete.UseVisualStyleBackColor = false;
             this.btnComplete.Click += new System.EventHandler(this.btnComplete_Click);
-            // 
-            // lblPath
-            // 
-            this.lblPath.AutoSize = true;
-            this.lblPath.Location = new System.Drawing.Point(12, 15);
-            this.lblPath.Name = "lblPath";
-            this.lblPath.Size = new System.Drawing.Size(29, 13);
-            this.lblPath.TabIndex = 2;
-            this.lblPath.Text = "Path";
-            // 
-            // txtPath
-            // 
-            this.txtPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPath.Location = new System.Drawing.Point(88, 12);
-            this.txtPath.Name = "txtPath";
-            this.txtPath.Size = new System.Drawing.Size(317, 20);
-            this.txtPath.TabIndex = 1;
             // 
             // lblPermissionLevel
             // 
@@ -352,11 +334,30 @@
             this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
+            // lblPath
+            // 
+            this.lblPath.AutoSize = true;
+            this.lblPath.Location = new System.Drawing.Point(12, 15);
+            this.lblPath.Name = "lblPath";
+            this.lblPath.Size = new System.Drawing.Size(29, 13);
+            this.lblPath.TabIndex = 2;
+            this.lblPath.Text = "Path";
+            // 
+            // lblRealPath
+            // 
+            this.lblRealPath.AutoSize = true;
+            this.lblRealPath.Location = new System.Drawing.Point(89, 15);
+            this.lblRealPath.Name = "lblRealPath";
+            this.lblRealPath.Size = new System.Drawing.Size(29, 13);
+            this.lblRealPath.TabIndex = 25;
+            this.lblRealPath.Text = "Path";
+            // 
             // ACLForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(417, 412);
+            this.Controls.Add(this.lblRealPath);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panel1);
@@ -365,7 +366,6 @@
             this.Controls.Add(this.lblUser);
             this.Controls.Add(this.cbbLevel);
             this.Controls.Add(this.lblPermissionLevel);
-            this.Controls.Add(this.txtPath);
             this.Controls.Add(this.lblPath);
             this.Controls.Add(this.btnComplete);
             this.Name = "ACLForm";
@@ -383,8 +383,6 @@
 
         private System.Windows.Forms.CheckBox chkFullControl;
         private System.Windows.Forms.Button btnComplete;
-        private System.Windows.Forms.Label lblPath;
-        private System.Windows.Forms.TextBox txtPath;
         private System.Windows.Forms.Label lblPermissionLevel;
         private System.Windows.Forms.ComboBox cbbLevel;
         private System.Windows.Forms.RadioButton rdbAllow;
@@ -408,5 +406,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Label lblPath;
+        private System.Windows.Forms.Label lblRealPath;
     }
 }

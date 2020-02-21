@@ -24,42 +24,69 @@ namespace PowerShellACLDocuments.Scripting
 
         public string generateScript(Package package)
         {
-            //StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
 
-            //foreach (var item in workingFolder.Actions)
-            //{
-            //    if(item is ACLSetting)
-            //    {
-            //        builder.Append(mixing(item as ACLSetting, package));
-            //        continue;
-            //    }
-            //}
+            string basePath = package.BasePath;
 
-            //return builder.ToString();
+            foreach (var item in package.Folders)
+            {
+                builder.Append(mixing(item, basePath));
+                continue;
+            }
 
-            throw new NotImplementedException();
+            return builder.ToString();
         }
 
-        private string mixing(ACLSetting acl, Package pack)
+        private string mixing(Folder createFolder, string basePath)
         {
             string returnObj = "";
 
             //create folder if not existent
-            returnObj = newFolderBase.Replace("@basePath",pack.BasePath).Replace("@actionPath", acl.Path);
+            returnObj = newFolderBase.Replace("@basePath", basePath).Replace("@folderPath", createFolder.Name);
+
+            returnObj += "\n\n";
+
+            string fullPath = basePath + createFolder.Name + @"\";
+
+            //create actions
+            if (createFolder.Actions != null)
+            {
+                foreach (var item in createFolder.Actions)
+                {
+                    if (item is ACLSetting)
+                    {
+                        returnObj += mixing(item as ACLSetting, fullPath);
+                    }
+                }
+            }
+
+            //add inner folders
+            if (createFolder.Folders != null)
+            {
+                foreach (var item in createFolder.Folders)
+                {
+                    returnObj += mixing(item, fullPath);
+                }
+            }
+
+            return returnObj;
+        }
+
+        private string mixing(ACLSetting acl, string aclPath)
+        {
+            string returnObj = "";
 
             //generate ACL
             string aclTXT = aclSettingBase;
             ACLPropagationAndInheritanceSettings propagationVariable = acl.PropagationAndInheritanceSettings();
 
-            aclTXT = aclTXT.Replace("@basePath", pack.BasePath);
-            aclTXT = aclTXT.Replace("@actionPath", acl.Path);
+            aclTXT = aclTXT.Replace("@actionPath", aclPath);
             aclTXT = aclTXT.Replace("@who", acl.ForWho);
             aclTXT = aclTXT.Replace("@rights", acl.AccessRights());
             aclTXT = aclTXT.Replace("@allowDeny", acl.AllowOrDeny());
             aclTXT = aclTXT.Replace("@inherit", propagationVariable.Inheritance);
             aclTXT = aclTXT.Replace("@propagation", propagationVariable.Propagation);
 
-            returnObj += "\n\n";
             returnObj += aclTXT;
             returnObj += "\n\n";
 

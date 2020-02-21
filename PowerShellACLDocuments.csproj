@@ -62,6 +62,7 @@
     <Compile Include="ActionForms\CopyFileForm.Designer.cs">
       <DependentUpon>CopyFileForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Automators\ConvertDirectoryStructure.cs" />
     <Compile Include="DataModeling\ACLSetting.cs" />
     <Compile Include="DataModeling\BaseAction.cs" />
     <Compile Include="DataModeling\CopyFileSetting.cs" />

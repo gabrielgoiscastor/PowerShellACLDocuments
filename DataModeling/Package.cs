@@ -29,10 +29,10 @@ namespace PowerShellACLDocuments.DataModeling
             for (int i = 0; i < brokenPath.Length - 1; i++)
             {
                 string el = brokenPath[i];
-                folderList = folderList.Where(x => x.Name == el).ToList();
+                folderList = folderList.Where(x => x.Name == el).First().Folders;
             }
 
-            return folderList.First();
+            return folderList.Where(x => x.Name == brokenPath.Last()).FirstOrDefault();
         }
 
         public Folder FindParent(string path, string separator = "\\")
@@ -72,6 +72,7 @@ namespace PowerShellACLDocuments.DataModeling
         public Folder()
         {
             this.Folders = new List<Folder>();
+            this.Actions = new List<BaseAction>();
         }
     }
 }

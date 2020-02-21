@@ -14,7 +14,6 @@ namespace PowerShellACLDocuments.DataModeling
 
         }
 
-        public string Path { get; set; }
         public string ForWho { get; set; }
         public bool PermissionType { get; set; }
         public string PermissionLevel { get; set; }
@@ -36,7 +35,7 @@ namespace PowerShellACLDocuments.DataModeling
 
         public override string ToString()
         {
-            string returnObj = this.Path + " | " + this.ForWho + " | Levels: " + Regex.Matches(Path, "/").Count;
+            string returnObj = "- " + this.ForWho + " | " + this.AllowOrDeny() + " | " + this.AccessRights();
             return returnObj;
         }
 

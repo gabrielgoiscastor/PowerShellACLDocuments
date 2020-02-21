@@ -1,1 +1,1 @@
-﻿New-Item -ItemType Directory -Force -Path "@basePath@actionPath"
+﻿New-Item -ItemType Directory -Force -Path "@basePath@folderPath"

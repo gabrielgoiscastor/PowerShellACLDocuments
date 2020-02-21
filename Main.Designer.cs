@@ -32,6 +32,7 @@
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newFromExistingFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -39,8 +40,6 @@
             this.btnActionBase = new System.Windows.Forms.Button();
             this.btnInputBase = new System.Windows.Forms.Button();
             this.actionsStrip = new System.Windows.Forms.ToolStrip();
-            this.toolStripNewFolder = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolBtnNewACL = new System.Windows.Forms.ToolStripButton();
             this.toolBtnNewFileCopy = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -57,6 +56,9 @@
             this.lblConfigsFor = new System.Windows.Forms.Label();
             this.btnClearSelection = new System.Windows.Forms.Button();
             this.btnDeleteFolder = new System.Windows.Forms.Button();
+            this.btnNewFolder = new System.Windows.Forms.Button();
+            this.folderDialog = new System.Windows.Forms.OpenFileDialog();
+            this.btnExpandCollapse = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -88,11 +90,22 @@
             // 
             // newToolStripMenuItem
             // 
+            this.newToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newFromExistingFolderToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            // 
+            // newFromExistingFolderToolStripMenuItem
+            // 
+            this.newFromExistingFolderToolStripMenuItem.Name = "newFromExistingFolderToolStripMenuItem";
+            this.newFromExistingFolderToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.N)));
+            this.newFromExistingFolderToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
+            this.newFromExistingFolderToolStripMenuItem.Text = "New from existing folder";
+            this.newFromExistingFolderToolStripMenuItem.Click += new System.EventHandler(this.newFromExistingFolderToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
@@ -152,6 +165,7 @@
             this.btnActionBase.Size = new System.Drawing.Size(384, 41);
             this.btnActionBase.TabIndex = 0;
             this.btnActionBase.Text = "Action";
+            this.btnActionBase.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnActionBase.UseVisualStyleBackColor = false;
             // 
             // btnInputBase
@@ -164,14 +178,13 @@
             this.btnInputBase.Size = new System.Drawing.Size(171, 41);
             this.btnInputBase.TabIndex = 1;
             this.btnInputBase.Text = "Input";
+            this.btnInputBase.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnInputBase.UseVisualStyleBackColor = false;
             // 
             // actionsStrip
             // 
             this.actionsStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.actionsStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripNewFolder,
-            this.toolStripSeparator2,
             this.toolBtnNewACL,
             this.toolBtnNewFileCopy,
             this.toolStripSeparator1,
@@ -181,21 +194,6 @@
             this.actionsStrip.Size = new System.Drawing.Size(571, 25);
             this.actionsStrip.TabIndex = 2;
             this.actionsStrip.Text = "toolStrip1";
-            // 
-            // toolStripNewFolder
-            // 
-            this.toolStripNewFolder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripNewFolder.Image = ((System.Drawing.Image)(resources.GetObject("toolStripNewFolder.Image")));
-            this.toolStripNewFolder.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripNewFolder.Name = "toolStripNewFolder";
-            this.toolStripNewFolder.Size = new System.Drawing.Size(71, 22);
-            this.toolStripNewFolder.Text = "New Folder";
-            this.toolStripNewFolder.Click += new System.EventHandler(this.toolStripNewFolder_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // toolBtnNewACL
             // 
@@ -297,10 +295,12 @@
             // 
             // foldersTree
             // 
+            this.foldersTree.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.foldersTree.HotTracking = true;
-            this.foldersTree.Location = new System.Drawing.Point(15, 123);
+            this.foldersTree.Location = new System.Drawing.Point(15, 148);
             this.foldersTree.Name = "foldersTree";
-            this.foldersTree.Size = new System.Drawing.Size(291, 345);
+            this.foldersTree.Size = new System.Drawing.Size(291, 320);
             this.foldersTree.TabIndex = 7;
             this.foldersTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.foldersTree_AfterSelect);
             // 
@@ -327,7 +327,7 @@
             this.btnClearSelection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnClearSelection.Location = new System.Drawing.Point(15, 474);
             this.btnClearSelection.Name = "btnClearSelection";
-            this.btnClearSelection.Size = new System.Drawing.Size(100, 23);
+            this.btnClearSelection.Size = new System.Drawing.Size(144, 40);
             this.btnClearSelection.TabIndex = 10;
             this.btnClearSelection.Text = "Clear Selection";
             this.btnClearSelection.UseVisualStyleBackColor = true;
@@ -337,19 +337,47 @@
             // 
             this.btnDeleteFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDeleteFolder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.btnDeleteFolder.Location = new System.Drawing.Point(121, 474);
+            this.btnDeleteFolder.Location = new System.Drawing.Point(165, 474);
             this.btnDeleteFolder.Name = "btnDeleteFolder";
-            this.btnDeleteFolder.Size = new System.Drawing.Size(100, 23);
+            this.btnDeleteFolder.Size = new System.Drawing.Size(141, 40);
             this.btnDeleteFolder.TabIndex = 11;
             this.btnDeleteFolder.Text = "Delete folder";
             this.btnDeleteFolder.UseVisualStyleBackColor = false;
             this.btnDeleteFolder.Click += new System.EventHandler(this.btnDeleteFolder_Click);
+            // 
+            // btnNewFolder
+            // 
+            this.btnNewFolder.Location = new System.Drawing.Point(15, 123);
+            this.btnNewFolder.Name = "btnNewFolder";
+            this.btnNewFolder.Size = new System.Drawing.Size(144, 23);
+            this.btnNewFolder.TabIndex = 12;
+            this.btnNewFolder.Text = "+ New Folder";
+            this.btnNewFolder.UseVisualStyleBackColor = true;
+            this.btnNewFolder.Click += new System.EventHandler(this.btnNewFolder_Click);
+            // 
+            // folderDialog
+            // 
+            this.folderDialog.CheckFileExists = false;
+            this.folderDialog.FileName = "Select a folder";
+            this.folderDialog.ValidateNames = false;
+            // 
+            // btnExpandCollapse
+            // 
+            this.btnExpandCollapse.Location = new System.Drawing.Point(165, 123);
+            this.btnExpandCollapse.Name = "btnExpandCollapse";
+            this.btnExpandCollapse.Size = new System.Drawing.Size(141, 23);
+            this.btnExpandCollapse.TabIndex = 13;
+            this.btnExpandCollapse.Text = "Expand/Collapse all";
+            this.btnExpandCollapse.UseVisualStyleBackColor = true;
+            this.btnExpandCollapse.Click += new System.EventHandler(this.btnExpandCollapse_Click);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(895, 526);
+            this.Controls.Add(this.btnExpandCollapse);
+            this.Controls.Add(this.btnNewFolder);
             this.Controls.Add(this.btnDeleteFolder);
             this.Controls.Add(this.btnClearSelection);
             this.Controls.Add(this.lblConfigsFor);
@@ -405,11 +433,13 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.TreeView foldersTree;
         private System.Windows.Forms.Label lblFolders;
-        private System.Windows.Forms.ToolStripButton toolStripNewFolder;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.Label lblConfigsFor;
         private System.Windows.Forms.Button btnClearSelection;
         private System.Windows.Forms.Button btnDeleteFolder;
+        private System.Windows.Forms.Button btnNewFolder;
+        private System.Windows.Forms.ToolStripMenuItem newFromExistingFolderToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog folderDialog;
+        private System.Windows.Forms.Button btnExpandCollapse;
     }
 }
