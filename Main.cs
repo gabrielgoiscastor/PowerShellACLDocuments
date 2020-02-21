@@ -22,19 +22,12 @@ namespace PowerShellACLDocuments
         {
             InitializeComponent();
 
-            this.clearableInterfaces = new List<Control>()
-            {
-                this.txtName,
-                this.txtPath
-            };
-
             this.baseTitle = this.Text;
             baseConfigFor = lblConfigsFor.Text;
             lblConfigsFor.Text = "";
             btnInputBase.Hide();
             btnActionBase.Hide();
-            btnDeleteFolder.Hide();
-            btnClearSelection.Hide();
+            folderActions(false);
 
             this.aclForm.FormClosing += AclForm_FormClosing;
             this.aclForm.VisibleChanged += AuxForm_VisibleChanged;
@@ -89,8 +82,7 @@ namespace PowerShellACLDocuments
         string settingsFileName = AppDomain.CurrentDomain.BaseDirectory + "\\settings.json";
         psACLSettings settings = null;
         string baseConfigFor = "";
-        string invalidCharsForFolderName = "\\*!@#$%^&*()ãàéèóòõíìúùÃÀÉÈÓÒÕÍÌÚÙ";
-        List<Control> clearableInterfaces = new List<Control>();
+        string invalidCharsForFolderName = "\\*!@#$%^&*()ãàéèêóòõíìúùçÃÀÉÈÊÓÒÕÔÍÌÚÙÇ`~;',{}[]/?<>|+=";
 
         int latestUpdated = -1;
         Package package = new Package();
@@ -107,9 +99,9 @@ namespace PowerShellACLDocuments
             }
         }
 
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        private void newToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if(progressLostOk() == false) { return; }
+            if (progressLostOk() == false) { return; }
             this.clearInterface();
         }
 
@@ -151,9 +143,12 @@ namespace PowerShellACLDocuments
                 this.filePath = path;
                 string fileContent = File.ReadAllText(this.filePath);
                 JsonConverter[] converters = { new ActionContract() };
-                Package pack = JsonConvert.DeserializeObject<Package>(fileContent, new JsonSerializerSettings() { Converters = converters });
+                Package pack = JsonConvert.DeserializeObject<Package>(fileContent, new JsonSerializerSettings() { Converters = converters, MissingMemberHandling = MissingMemberHandling.Ignore });
                 this.package = pack;
+                this.clearInterface();
                 this.renderEverything();
+                this.saveFileDialog.FileName = filePath;
+                this.somethingChange(true);
             }
             catch (Exception err)
             {
@@ -166,6 +161,7 @@ namespace PowerShellACLDocuments
         {
             txtName.Text = package.Name;
             txtPath.Text = package.BasePath;
+            txtDefaultFolderManual.Text = package.FolderInstructionsDefaultFileNme;
 
             addFolders(package.Folders, foldersTree.Nodes);
         }
@@ -225,13 +221,22 @@ namespace PowerShellACLDocuments
 
         private void clearInterface()
         {
-            foreach(var control in this.clearableInterfaces)
+            foreach(var control in this.Controls)
             {
                 if(control is TextBox)
                 {
                     (control as TextBox).Text = "";
                 }
+                if(control is TreeView)
+                {
+                    (control as TreeView).Nodes.Clear();
+                }
             }
+
+            this.renderActions();
+
+            settings.LatestFile = "";
+            setSettings();
         }
 
         private void somethingChange(bool? clear)
@@ -260,6 +265,7 @@ namespace PowerShellACLDocuments
             this.somethingChange(false);
             this.package.Name = txtName.Text;
             this.package.BasePath = txtPath.Text;
+            this.package.FolderInstructionsDefaultFileNme = txtDefaultFolderManual.Text;
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -364,6 +370,7 @@ namespace PowerShellACLDocuments
             {
                 workingFolder.Actions[latestUpdated] = this.aclForm.aclSetting;
             }
+            this.somethingChange(null);
             this.renderActions();
         }
 
@@ -383,7 +390,7 @@ namespace PowerShellACLDocuments
                 targetPanel.Controls.Remove(control);
             }
 
-            if(workingFolder.Actions == null || workingFolder.Actions.Count == 0)
+            if(workingFolder == null || workingFolder.Actions == null || workingFolder.Actions.Count == 0)
             {
                 return;
             }
@@ -478,9 +485,9 @@ namespace PowerShellACLDocuments
                 return;
             }
             this.lblConfigsFor.Text = this.baseConfigFor + ": " + foldersTree.SelectedNode.FullPath;
-            btnClearSelection.Show();
-            btnDeleteFolder.Show();
+            folderActions(true);
             workingFolder = package.FindFolder(foldersTree.SelectedNode.FullPath);
+            txtFolderInstructions.Text = workingFolder.FolderInstructions != null ? workingFolder.FolderInstructions : "";
             renderActions();
         }
 
@@ -488,8 +495,7 @@ namespace PowerShellACLDocuments
         {
             lblConfigsFor.Text = "";
             foldersTree.SelectedNode = null;
-            btnClearSelection.Hide();
-            btnDeleteFolder.Hide();
+            folderActions(false);
         }
 
         private void deleteFolder()
@@ -507,6 +513,49 @@ namespace PowerShellACLDocuments
             }
 
             foldersTree.SelectedNode.Remove();
+            foldersTree.SelectedNode = null;
+            folderActions(false);
+        }
+
+        private void btnRenameFolder_Click(object sender, EventArgs e)
+        {
+            string folderName = null;
+
+            while (folderName == null || validFolderName(folderName) == false)
+            {
+                if (folderName != null)
+                {
+                    MessageBox.Show("Invalid folder name");
+                }
+                folderName = Microsoft.VisualBasic.Interaction.InputBox("Rename folder", "", workingFolder.Name);
+            }
+        }
+
+        private void folderActions(bool show)
+        {
+            if (show)
+            {
+                btnRenameFolder.Show();
+                btnDeleteFolder.Show();
+                btnClearSelection.Show();
+                txtFolderInstructions.Enabled = true;
+                return;
+            }
+
+            btnRenameFolder.Hide();
+            btnDeleteFolder.Hide();
+            btnClearSelection.Hide();
+            txtFolderInstructions.Enabled = false;
+        }
+
+        private void txtFolderInstructions_TextChanged(object sender, EventArgs e)
+        {
+            if(workingFolder == null)
+            {
+                return;
+            }
+
+            workingFolder.FolderInstructions = txtFolderInstructions.Text;
         }
 
         #endregion
@@ -533,6 +582,11 @@ namespace PowerShellACLDocuments
                 foldersTree.CollapseAll();
             }
             expanded = !expanded;
+        }
+
+        private void txtBox_TextChanged(object sender, KeyEventArgs e)
+        {
+
         }
     }
 }

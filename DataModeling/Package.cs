@@ -13,6 +13,7 @@ namespace PowerShellACLDocuments.DataModeling
 
         public List<Parameter> Parameters { get; set; }
         public List<Folder> Folders { get; set; }
+        public string FolderInstructionsDefaultFileNme { get; set; }
 
         public Package()
         {
@@ -68,6 +69,7 @@ namespace PowerShellACLDocuments.DataModeling
         public string Name { get; set; }
         public List<BaseAction> Actions { get; set; }
         public List<Folder> Folders { get; set; }
+        public string FolderInstructions { get; set; }
 
         public Folder()
         {

@@ -32,6 +32,7 @@
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.newFromExistingFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,6 +60,11 @@
             this.btnNewFolder = new System.Windows.Forms.Button();
             this.folderDialog = new System.Windows.Forms.OpenFileDialog();
             this.btnExpandCollapse = new System.Windows.Forms.Button();
+            this.btnRenameFolder = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtDefaultFolderManual = new System.Windows.Forms.TextBox();
+            this.txtFolderInstructions = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -74,7 +80,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(895, 24);
+            this.menuStrip.Size = new System.Drawing.Size(1152, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuMain";
             // 
@@ -91,12 +97,19 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem1,
             this.newFromExistingFolderToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.newToolStripMenuItem.Text = "New";
-            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            // 
+            // newToolStripMenuItem1
+            // 
+            this.newToolStripMenuItem1.Name = "newToolStripMenuItem1";
+            this.newToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newToolStripMenuItem1.Size = new System.Drawing.Size(280, 22);
+            this.newToolStripMenuItem1.Text = "New";
+            this.newToolStripMenuItem1.Click += new System.EventHandler(this.newToolStripMenuItem1_Click);
             // 
             // newFromExistingFolderToolStripMenuItem
             // 
@@ -133,7 +146,7 @@
             this.panel1.Controls.Add(this.actionsStrip);
             this.panel1.Location = new System.Drawing.Point(312, 123);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(571, 345);
+            this.panel1.Size = new System.Drawing.Size(522, 345);
             this.panel1.TabIndex = 1;
             // 
             // splitContainer
@@ -151,8 +164,8 @@
             // 
             this.splitContainer.Panel2.AutoScroll = true;
             this.splitContainer.Panel2.Controls.Add(this.btnInputBase);
-            this.splitContainer.Size = new System.Drawing.Size(571, 320);
-            this.splitContainer.SplitterDistance = 390;
+            this.splitContainer.Size = new System.Drawing.Size(522, 320);
+            this.splitContainer.SplitterDistance = 356;
             this.splitContainer.TabIndex = 3;
             // 
             // btnActionBase
@@ -162,7 +175,7 @@
             this.btnActionBase.BackColor = System.Drawing.SystemColors.Control;
             this.btnActionBase.Location = new System.Drawing.Point(3, 3);
             this.btnActionBase.Name = "btnActionBase";
-            this.btnActionBase.Size = new System.Drawing.Size(384, 41);
+            this.btnActionBase.Size = new System.Drawing.Size(350, 41);
             this.btnActionBase.TabIndex = 0;
             this.btnActionBase.Text = "Action";
             this.btnActionBase.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -175,7 +188,7 @@
             this.btnInputBase.BackColor = System.Drawing.SystemColors.Control;
             this.btnInputBase.Location = new System.Drawing.Point(3, 3);
             this.btnInputBase.Name = "btnInputBase";
-            this.btnInputBase.Size = new System.Drawing.Size(171, 41);
+            this.btnInputBase.Size = new System.Drawing.Size(156, 41);
             this.btnInputBase.TabIndex = 1;
             this.btnInputBase.Text = "Input";
             this.btnInputBase.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -191,7 +204,7 @@
             this.toolBtnNewInput});
             this.actionsStrip.Location = new System.Drawing.Point(0, 0);
             this.actionsStrip.Name = "actionsStrip";
-            this.actionsStrip.Size = new System.Drawing.Size(571, 25);
+            this.actionsStrip.Size = new System.Drawing.Size(522, 25);
             this.actionsStrip.TabIndex = 2;
             this.actionsStrip.Text = "toolStrip1";
             // 
@@ -254,7 +267,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtName.Location = new System.Drawing.Point(92, 31);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(791, 20);
+            this.txtName.Size = new System.Drawing.Size(325, 20);
             this.txtName.TabIndex = 4;
             this.txtName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBox_TextChanged);
             // 
@@ -264,7 +277,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPath.Location = new System.Drawing.Point(92, 65);
             this.txtPath.Name = "txtPath";
-            this.txtPath.Size = new System.Drawing.Size(791, 20);
+            this.txtPath.Size = new System.Drawing.Size(325, 20);
             this.txtPath.TabIndex = 5;
             this.txtPath.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBox_TextChanged);
             this.txtPath.Leave += new System.EventHandler(this.txtPath_Leave);
@@ -273,9 +286,9 @@
             // 
             this.btnGeneratePS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnGeneratePS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnGeneratePS.Location = new System.Drawing.Point(708, 474);
+            this.btnGeneratePS.Location = new System.Drawing.Point(840, 474);
             this.btnGeneratePS.Name = "btnGeneratePS";
-            this.btnGeneratePS.Size = new System.Drawing.Size(175, 40);
+            this.btnGeneratePS.Size = new System.Drawing.Size(300, 40);
             this.btnGeneratePS.TabIndex = 6;
             this.btnGeneratePS.Text = "Generate PowerShell Script";
             this.btnGeneratePS.UseVisualStyleBackColor = false;
@@ -337,9 +350,10 @@
             // 
             this.btnDeleteFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDeleteFolder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.btnDeleteFolder.Location = new System.Drawing.Point(165, 474);
+            this.btnDeleteFolder.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btnDeleteFolder.Location = new System.Drawing.Point(312, 474);
             this.btnDeleteFolder.Name = "btnDeleteFolder";
-            this.btnDeleteFolder.Size = new System.Drawing.Size(141, 40);
+            this.btnDeleteFolder.Size = new System.Drawing.Size(105, 40);
             this.btnDeleteFolder.TabIndex = 11;
             this.btnDeleteFolder.Text = "Delete folder";
             this.btnDeleteFolder.UseVisualStyleBackColor = false;
@@ -371,11 +385,67 @@
             this.btnExpandCollapse.UseVisualStyleBackColor = true;
             this.btnExpandCollapse.Click += new System.EventHandler(this.btnExpandCollapse_Click);
             // 
+            // btnRenameFolder
+            // 
+            this.btnRenameFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnRenameFolder.Location = new System.Drawing.Point(165, 474);
+            this.btnRenameFolder.Name = "btnRenameFolder";
+            this.btnRenameFolder.Size = new System.Drawing.Size(141, 40);
+            this.btnRenameFolder.TabIndex = 14;
+            this.btnRenameFolder.Text = "Rename folder (F2)";
+            this.btnRenameFolder.UseVisualStyleBackColor = true;
+            this.btnRenameFolder.Click += new System.EventHandler(this.btnRenameFolder_Click);
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(423, 34);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(171, 13);
+            this.label2.TabIndex = 15;
+            this.label2.Text = "Default folder instructions file name";
+            // 
+            // txtDefaultFolderManual
+            // 
+            this.txtDefaultFolderManual.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDefaultFolderManual.Location = new System.Drawing.Point(600, 31);
+            this.txtDefaultFolderManual.Name = "txtDefaultFolderManual";
+            this.txtDefaultFolderManual.Size = new System.Drawing.Size(540, 20);
+            this.txtDefaultFolderManual.TabIndex = 16;
+            this.txtDefaultFolderManual.TextChanged += new System.EventHandler(this.txtBox_TextChanged);
+            // 
+            // txtFolderInstructions
+            // 
+            this.txtFolderInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFolderInstructions.Location = new System.Drawing.Point(840, 123);
+            this.txtFolderInstructions.Multiline = true;
+            this.txtFolderInstructions.Name = "txtFolderInstructions";
+            this.txtFolderInstructions.Size = new System.Drawing.Size(300, 345);
+            this.txtFolderInstructions.TabIndex = 17;
+            this.txtFolderInstructions.TextChanged += new System.EventHandler(this.txtFolderInstructions_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(837, 102);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(93, 13);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "Folder Instructions";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(895, 526);
+            this.ClientSize = new System.Drawing.Size(1152, 526);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtFolderInstructions);
+            this.Controls.Add(this.txtDefaultFolderManual);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.btnRenameFolder);
             this.Controls.Add(this.btnExpandCollapse);
             this.Controls.Add(this.btnNewFolder);
             this.Controls.Add(this.btnDeleteFolder);
@@ -441,5 +511,11 @@
         private System.Windows.Forms.ToolStripMenuItem newFromExistingFolderToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog folderDialog;
         private System.Windows.Forms.Button btnExpandCollapse;
+        private System.Windows.Forms.Button btnRenameFolder;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtDefaultFolderManual;
+        private System.Windows.Forms.TextBox txtFolderInstructions;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem1;
     }
 }
