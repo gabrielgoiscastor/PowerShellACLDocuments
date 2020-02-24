@@ -15,16 +15,30 @@ namespace PowerShellACLDocuments.ActionForms
         public DataModeling.ACLSetting aclSetting;
         public bool executed = false;
         public bool delete = false;
+        public int? moveToPosition = null;
 
         public ACLForm()
         {
             InitializeComponent();
         }
 
-        public void initialize(DataModeling.ACLSetting aclSetting)
+        public void initialize(DataModeling.ACLSetting aclSetting, int maxPosition, int thisItemPosition)
         {
             executed = false;
             delete = false;
+
+            cbPosition.Items.Clear();
+            cbPosition.Items.Add("Select");
+            for (int i = 0; i <= maxPosition - 1; i++)
+            {
+                cbPosition.Items.Add(i);
+
+                if (i == thisItemPosition)
+                {
+                    cbPosition.Select(i, 1);
+                }
+            }
+
             if (aclSetting == null)
             {
                 this.clearForm();
@@ -103,9 +117,16 @@ namespace PowerShellACLDocuments.ActionForms
                 errorMessage("Define level");
                 return;
             }
+            if (cbPosition.SelectedIndex == 0)
+            {
+                errorMessage("Define position");
+                return;
+            }
             #endregion  
 
             executed = true;
+
+            this.moveToPosition = int.Parse(cbPosition.SelectedItem.ToString());
 
             aclSetting.ForWho = this.txtWho.Text;
             aclSetting.PermissionType = this.rdbAllow.Checked;

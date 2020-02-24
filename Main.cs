@@ -144,6 +144,7 @@ namespace PowerShellACLDocuments
                 string fileContent = File.ReadAllText(this.filePath);
                 JsonConverter[] converters = { new ActionContract() };
                 Package pack = JsonConvert.DeserializeObject<Package>(fileContent, new JsonSerializerSettings() { Converters = converters, MissingMemberHandling = MissingMemberHandling.Ignore });
+                workingFolder = null;
                 this.package = pack;
                 this.clearInterface();
                 this.renderEverything();
@@ -321,7 +322,7 @@ namespace PowerShellACLDocuments
         private void toolBtnNewACL_Click(object sender, EventArgs e)
         {
             this.latestUpdated = -1;
-            this.aclForm.initialize(null);
+            this.aclForm.initialize(null, this.workingFolder.Actions.Count, -1);
             this.aclForm.Show();
         }
 
@@ -331,7 +332,7 @@ namespace PowerShellACLDocuments
 
             if(action is ACLSetting)
             {
-                this.aclForm.initialize(action as ACLSetting);
+                this.aclForm.initialize(action as ACLSetting, workingFolder.Actions.Count, latestUpdated);
                 this.aclForm.Show();
             }
         }
@@ -355,7 +356,7 @@ namespace PowerShellACLDocuments
 
             if (latestUpdated == -1)
             {
-                workingFolder.Actions.Add(this.aclForm.aclSetting);
+                workingFolder.Actions.Insert(aclForm.moveToPosition.Value, this.aclForm.aclSetting);
             }
             else if (this.aclForm.delete)
             {
@@ -364,6 +365,11 @@ namespace PowerShellACLDocuments
             else
             {
                 workingFolder.Actions[latestUpdated] = this.aclForm.aclSetting;
+                if(this.aclForm.moveToPosition != latestUpdated)
+                {
+                    workingFolder.Actions.RemoveAt(latestUpdated);
+                    workingFolder.Actions.Insert(this.aclForm.moveToPosition.Value, this.aclForm.aclSetting);
+                }
             }
             this.somethingChange(null);
             this.renderActions();
@@ -563,15 +569,21 @@ namespace PowerShellACLDocuments
             workingFolder.FolderInstructions = txtFolderInstructions.Text;
         }
 
-        #endregion
-
         private void btnDeleteFolder_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show("Sure?", "Delete", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+            if (MessageBox.Show("Sure?", "Delete", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
             {
                 return;
             }
             this.deleteFolder();
+        }
+
+        private void foldersTree_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.F2 && workingFolder != null)
+            {
+                btnRenameFolder_Click(sender, e);
+            }
         }
 
         bool expanded = false;
@@ -589,17 +601,12 @@ namespace PowerShellACLDocuments
             expanded = !expanded;
         }
 
+        #endregion
+
+
         private void txtBox_TextChanged(object sender, KeyEventArgs e)
         {
 
-        }
-
-        private void foldersTree_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyData == Keys.F2 && workingFolder != null)
-            {
-                btnRenameFolder_Click(sender, e);
-            }
         }
     }
 }

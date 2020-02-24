@@ -55,6 +55,8 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.lblPath = new System.Windows.Forms.Label();
             this.lblRealPath = new System.Windows.Forms.Label();
+            this.lblMovePosition = new System.Windows.Forms.Label();
+            this.cbPosition = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -73,7 +75,7 @@
             // 
             this.btnComplete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnComplete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnComplete.Location = new System.Drawing.Point(264, 357);
+            this.btnComplete.Location = new System.Drawing.Point(264, 414);
             this.btnComplete.Name = "btnComplete";
             this.btnComplete.Size = new System.Drawing.Size(141, 43);
             this.btnComplete.TabIndex = 20;
@@ -326,7 +328,7 @@
             // 
             this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.btnDelete.Location = new System.Drawing.Point(15, 357);
+            this.btnDelete.Location = new System.Drawing.Point(15, 414);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(141, 43);
             this.btnDelete.TabIndex = 24;
@@ -352,11 +354,34 @@
             this.lblRealPath.TabIndex = 25;
             this.lblRealPath.Text = "Path";
             // 
+            // lblMovePosition
+            // 
+            this.lblMovePosition.AutoSize = true;
+            this.lblMovePosition.Location = new System.Drawing.Point(12, 354);
+            this.lblMovePosition.Name = "lblMovePosition";
+            this.lblMovePosition.Size = new System.Drawing.Size(44, 13);
+            this.lblMovePosition.TabIndex = 26;
+            this.lblMovePosition.Text = "Position";
+            // 
+            // cbPosition
+            // 
+            this.cbPosition.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPosition.FormattingEnabled = true;
+            this.cbPosition.ItemHeight = 13;
+            this.cbPosition.Location = new System.Drawing.Point(88, 351);
+            this.cbPosition.Name = "cbPosition";
+            this.cbPosition.Size = new System.Drawing.Size(317, 21);
+            this.cbPosition.TabIndex = 27;
+            // 
             // ACLForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(417, 412);
+            this.ClientSize = new System.Drawing.Size(417, 469);
+            this.Controls.Add(this.cbPosition);
+            this.Controls.Add(this.lblMovePosition);
             this.Controls.Add(this.lblRealPath);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.groupBox1);
@@ -408,5 +433,7 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Label lblPath;
         private System.Windows.Forms.Label lblRealPath;
+        private System.Windows.Forms.Label lblMovePosition;
+        private System.Windows.Forms.ComboBox cbPosition;
     }
 }
