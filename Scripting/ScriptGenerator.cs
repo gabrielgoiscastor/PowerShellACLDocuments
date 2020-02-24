@@ -13,6 +13,7 @@ namespace PowerShellACLDocuments.Scripting
         private string aclSettingBase;
         private string newFolderBase;
         private string copyFileBase;
+        private string createManualFile;
 
         public ScriptGenerator()
         {
@@ -20,6 +21,7 @@ namespace PowerShellACLDocuments.Scripting
             aclSettingBase = File.ReadAllText(systemBasePath + "ACLSetting.txt");
             newFolderBase = File.ReadAllText(systemBasePath + "NewFolderIfNotExistent.txt");
             copyFileBase = File.ReadAllText(systemBasePath + "CopyFile.txt");
+            createManualFile = File.ReadAllText(systemBasePath + "GenerateTXTFileWithContent.txt");
         }
 
         public string generateScript(Package package)
@@ -30,25 +32,31 @@ namespace PowerShellACLDocuments.Scripting
 
             foreach (var item in package.Folders)
             {
-                builder.Append(mixing(item, basePath));
+                builder.Append(mixing(item, basePath, package.FolderInstructionsDefaultFileNameValidated()));
                 continue;
             }
 
             return builder.ToString();
         }
 
-        private string mixing(Folder createFolder, string basePath)
+        private string mixing(Folder createFolder, string basePath, string manualDefaultFileName)
         {
             string returnObj = "";
 
-            //create folder if not existent
+            // create folder if not existent
             returnObj = newFolderBase.Replace("@basePath", basePath).Replace("@folderPath", createFolder.Name);
 
             returnObj += "\n\n";
 
             string fullPath = basePath + createFolder.Name + @"\";
 
-            //create actions
+            // create intructions
+            if(string.IsNullOrEmpty(createFolder.FolderInstructions) == false && manualDefaultFileName != ".txt")
+            {
+                returnObj += createManualFile.Replace("@filePath", basePath + createFolder.Name + "\\" + manualDefaultFileName).Replace("@fileContent", createFolder.FolderInstructions);
+            }
+
+            // create actions
             if (createFolder.Actions != null)
             {
                 foreach (var item in createFolder.Actions)
@@ -60,12 +68,12 @@ namespace PowerShellACLDocuments.Scripting
                 }
             }
 
-            //add inner folders
+            // add inner folders
             if (createFolder.Folders != null)
             {
                 foreach (var item in createFolder.Folders)
                 {
-                    returnObj += mixing(item, fullPath);
+                    returnObj += mixing(item, fullPath, manualDefaultFileName);
                 }
             }
 

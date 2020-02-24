@@ -13,7 +13,7 @@ namespace PowerShellACLDocuments.DataModeling
 
         public List<Parameter> Parameters { get; set; }
         public List<Folder> Folders { get; set; }
-        public string FolderInstructionsDefaultFileNme { get; set; }
+        public string FolderInstructionsDefaultFileName { get; set; }
 
         public Package()
         {
@@ -61,6 +61,15 @@ namespace PowerShellACLDocuments.DataModeling
             }
 
             return folderList.Where(x => x.Name == brokenPath.Last()).FirstOrDefault();
+        }
+
+        public string FolderInstructionsDefaultFileNameValidated()
+        {
+            if (FolderInstructionsDefaultFileName.ToLower().EndsWith(".txt")){
+                return FolderInstructionsDefaultFileName;
+            }
+
+            return FolderInstructionsDefaultFileName + ".txt";
         }
     }
 

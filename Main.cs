@@ -164,7 +164,7 @@ namespace PowerShellACLDocuments
         {
             txtName.Text = package.Name;
             txtPath.Text = package.BasePath;
-            txtDefaultFolderManual.Text = package.FolderInstructionsDefaultFileNme;
+            txtDefaultFolderManual.Text = package.FolderInstructionsDefaultFileName;
 
             addFolders(package.Folders, foldersTree.Nodes);
             renderParameters();
@@ -250,12 +250,12 @@ namespace PowerShellACLDocuments
 
         #region event handlers
 
-        private void txtBox_TextChanged(object sender, EventArgs e)
+        private void txtBox_KeyUp(object sender, KeyEventArgs e)
         {
             this.somethingChange(false);
             this.package.Name = txtName.Text;
             this.package.BasePath = txtPath.Text;
-            this.package.FolderInstructionsDefaultFileNme = txtDefaultFolderManual.Text;
+            this.package.FolderInstructionsDefaultFileName = txtDefaultFolderManual.Text;
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -672,10 +672,5 @@ namespace PowerShellACLDocuments
 
         #endregion
 
-
-        private void txtBox_TextChanged(object sender, KeyEventArgs e)
-        {
-
-        }
     }
 }

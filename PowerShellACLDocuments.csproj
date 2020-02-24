@@ -125,6 +125,9 @@
     <Content Include="Scripting\CopyFile.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripting\GenerateTXTFileWithContent.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Scripting\NewFolderIfNotExistent.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

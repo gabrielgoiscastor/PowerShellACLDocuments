@@ -257,7 +257,7 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(325, 20);
             this.txtName.TabIndex = 4;
-            this.txtName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBox_TextChanged);
+            this.txtName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBox_KeyUp);
             // 
             // txtPath
             // 
@@ -267,7 +267,7 @@
             this.txtPath.Name = "txtPath";
             this.txtPath.Size = new System.Drawing.Size(325, 20);
             this.txtPath.TabIndex = 5;
-            this.txtPath.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBox_TextChanged);
+            this.txtPath.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBox_KeyUp);
             this.txtPath.Leave += new System.EventHandler(this.txtPath_Leave);
             // 
             // btnGeneratePS
@@ -402,7 +402,7 @@
             this.txtDefaultFolderManual.Name = "txtDefaultFolderManual";
             this.txtDefaultFolderManual.Size = new System.Drawing.Size(540, 20);
             this.txtDefaultFolderManual.TabIndex = 16;
-            this.txtDefaultFolderManual.TextChanged += new System.EventHandler(this.txtBox_TextChanged);
+            this.txtDefaultFolderManual.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBox_KeyUp);
             // 
             // txtFolderInstructions
             // 

@@ -2,3 +2,5 @@
 
 Set-Content "@filePath" '@fileContent'
 
+Set-ItemProperty -Path "@filePath" -Name IsReadOnly -Value $true
+
