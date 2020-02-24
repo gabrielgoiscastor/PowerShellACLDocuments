@@ -1,0 +1,4 @@
+﻿New-Item "@filePath"
+
+Set-Content "@filePath" '@fileContent'
+

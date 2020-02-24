@@ -167,6 +167,7 @@ namespace PowerShellACLDocuments
             txtDefaultFolderManual.Text = package.FolderInstructionsDefaultFileNme;
 
             addFolders(package.Folders, foldersTree.Nodes);
+            renderParameters();
         }
 
         private void addFolders(List<Folder> folders, TreeNodeCollection collection)
@@ -370,7 +371,7 @@ namespace PowerShellACLDocuments
 
         public void renderActions()
         {
-            this.btnInputBase.Hide();
+            this.btnActionBase.Hide();
 
             Panel targetPanel = splitContainer.Panel1;
 
@@ -392,7 +393,7 @@ namespace PowerShellACLDocuments
             for (int i = 0; i < workingFolder.Actions.Count; i++)
             {
                 BaseAction action = workingFolder.Actions[i];
-                Button newBtn = copyModelObject(action.ToString(), this.btnActionBase, splitContainer.Panel1);
+                Button newBtn = copyModelObject(action.ToString(), this.btnActionBase, targetPanel);
                 newBtn.Click += (sender, e) => editAction_Click(sender, e, action);
                 targetPanel.Controls.Add(newBtn);
             }
@@ -404,6 +405,8 @@ namespace PowerShellACLDocuments
 
         private void toolBtnNewInput_Click(object sender, EventArgs e)
         {
+            latestUpdated = -1;
+            inputForm.initialize(null);
             inputForm.Show();
             this.Hide();
         }
@@ -414,6 +417,61 @@ namespace PowerShellACLDocuments
             this.inputForm.Hide();
             this.Show();
             this.Focus();
+
+            if (inputForm.executed == false)
+            {
+                return;
+            }
+
+            if(latestUpdated == -1)
+            {
+                if(this.package.Parameters == null) { this.package.Parameters = new List<Parameter>(); }
+                this.package.Parameters.Add(this.inputForm.parameter);
+                renderParameters();
+                return;
+            }
+
+            this.package.Parameters[latestUpdated] = inputForm.parameter;
+            renderParameters();
+        }
+
+        public void renderParameters()
+        {
+            this.btnInputBase.Hide();
+
+            Panel targetPanel = splitContainer.Panel2;
+
+            for (int i = targetPanel.Controls.Count - 1; i >= 0; i--)
+            {
+                Control control = targetPanel.Controls[i];
+                if ((control as Button).Name == "btnInputBase")
+                {
+                    continue;
+                }
+                targetPanel.Controls.Remove(control);
+            }
+
+            if (package == null || package.Parameters == null || package.Parameters.Count == 0)
+            {
+                return;
+            }
+
+            for (int i = 0; i < package.Parameters.Count; i++)
+            {
+                DataModeling.Parameter parameter = package.Parameters[i];
+                Button newBtn = copyModelObject(parameter.ToString(), btnInputBase, targetPanel);
+                newBtn.Click += (sender, e) => editInput_Click(sender, e, parameter);
+                targetPanel.Controls.Add(newBtn);
+            }
+        }
+
+        private void editInput_Click(object sender, EventArgs e, Parameter parameter)
+        {
+            this.latestUpdated = package.Parameters.IndexOf(parameter);
+
+            this.inputForm.initialize(parameter);
+            this.inputForm.Show();
+            this.Hide();
         }
 
         #endregion

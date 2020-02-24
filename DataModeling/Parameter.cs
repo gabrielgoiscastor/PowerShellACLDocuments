@@ -15,5 +15,10 @@ namespace PowerShellACLDocuments.DataModeling
         public string DataType { get; set; }
 
         public string Value { get; set; }
+
+        public override string ToString()
+        {
+            return " - " + Name + " | " + (IsInput ? "PS" : "Here") + " | " + DataType;
+        }
     }
 }

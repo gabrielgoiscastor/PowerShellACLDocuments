@@ -12,9 +12,37 @@ namespace PowerShellACLDocuments.InputParameters
 {
     public partial class InputParameterForm : Form
     {
+        public DataModeling.Parameter parameter = null;
+        public bool executed = false;
+
         public InputParameterForm()
         {
             InitializeComponent();
+        }
+
+        public void initialize(DataModeling.Parameter parameter)
+        {
+            executed = false;
+            if (parameter == null)
+            {
+                this.clearForm();
+                this.parameter = new DataModeling.Parameter();
+                return;
+            }
+
+            this.parameter = parameter;
+            txtValue.Text = parameter.Value;
+            txtName.Text = parameter.Name;
+            cbbType.SelectedIndex = parameter.IsInput ? 2 : 1;
+            cbbInputType.SelectedIndex = parameter.DataType == "Array" ? 2 : 1;
+        }
+
+        private void clearForm()
+        {
+            txtName.Text = "";
+            txtValue.Text = "";
+            cbbInputType.SelectedIndex = -1;
+            cbbType.SelectedIndex = -1;
         }
 
         private void cbbType_SelectedIndexChanged(object sender, EventArgs e)
@@ -39,6 +67,20 @@ namespace PowerShellACLDocuments.InputParameters
             {
                 txtValue.Multiline = false;
             }
+        }
+
+        private void btnFinish_Click(object sender, EventArgs e)
+        {
+            parameter = new DataModeling.Parameter()
+            {
+                DataType = cbbInputType.SelectedItem.ToString(),
+                IsInput = cbbType.SelectedIndex == 2,
+                Name = txtName.Text,
+                Value = txtValue.Text
+            };
+
+            executed = true;
+            this.Close();
         }
     }
 }

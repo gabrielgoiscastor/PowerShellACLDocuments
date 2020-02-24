@@ -112,6 +112,7 @@
             this.btnFinish.TabIndex = 5;
             this.btnFinish.Text = "Finish configuration";
             this.btnFinish.UseVisualStyleBackColor = true;
+            this.btnFinish.Click += new System.EventHandler(this.btnFinish_Click);
             // 
             // label4
             // 
