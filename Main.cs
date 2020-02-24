@@ -193,11 +193,6 @@ namespace PowerShellACLDocuments
 
         #region tools menu actions
 
-        private void toolBtnNewFileCopy_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void toolBtnNewInput_Click(object sender, EventArgs e)
         {
 
@@ -529,6 +524,16 @@ namespace PowerShellACLDocuments
                 }
                 folderName = Microsoft.VisualBasic.Interaction.InputBox("Rename folder", "", workingFolder.Name);
             }
+
+            if (string.IsNullOrEmpty(folderName))
+            {
+                return;
+            }
+
+            this.workingFolder.Name = folderName;
+            foldersTree.SelectedNode.Text = folderName;
+            foldersTree.Sort();
+            folderActions(false);
         }
 
         private void folderActions(bool show)
@@ -587,6 +592,14 @@ namespace PowerShellACLDocuments
         private void txtBox_TextChanged(object sender, KeyEventArgs e)
         {
 
+        }
+
+        private void foldersTree_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.F2 && workingFolder != null)
+            {
+                btnRenameFolder_Click(sender, e);
+            }
         }
     }
 }

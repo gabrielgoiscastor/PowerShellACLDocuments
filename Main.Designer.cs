@@ -42,7 +42,6 @@
             this.btnInputBase = new System.Windows.Forms.Button();
             this.actionsStrip = new System.Windows.Forms.ToolStrip();
             this.toolBtnNewACL = new System.Windows.Forms.ToolStripButton();
-            this.toolBtnNewFileCopy = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolBtnNewInput = new System.Windows.Forms.ToolStripButton();
             this.lblName = new System.Windows.Forms.Label();
@@ -199,7 +198,6 @@
             this.actionsStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.actionsStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolBtnNewACL,
-            this.toolBtnNewFileCopy,
             this.toolStripSeparator1,
             this.toolBtnNewInput});
             this.actionsStrip.Location = new System.Drawing.Point(0, 0);
@@ -217,16 +215,6 @@
             this.toolBtnNewACL.Size = new System.Drawing.Size(98, 22);
             this.toolBtnNewACL.Text = "New ACL Action";
             this.toolBtnNewACL.Click += new System.EventHandler(this.toolBtnNewACL_Click);
-            // 
-            // toolBtnNewFileCopy
-            // 
-            this.toolBtnNewFileCopy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolBtnNewFileCopy.Image = ((System.Drawing.Image)(resources.GetObject("toolBtnNewFileCopy.Image")));
-            this.toolBtnNewFileCopy.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolBtnNewFileCopy.Name = "toolBtnNewFileCopy";
-            this.toolBtnNewFileCopy.Size = new System.Drawing.Size(125, 22);
-            this.toolBtnNewFileCopy.Text = "New File Copy Action";
-            this.toolBtnNewFileCopy.Click += new System.EventHandler(this.toolBtnNewFileCopy_Click);
             // 
             // toolStripSeparator1
             // 
@@ -316,6 +304,7 @@
             this.foldersTree.Size = new System.Drawing.Size(291, 320);
             this.foldersTree.TabIndex = 7;
             this.foldersTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.foldersTree_AfterSelect);
+            this.foldersTree.KeyUp += new System.Windows.Forms.KeyEventHandler(this.foldersTree_KeyUp);
             // 
             // lblFolders
             // 
@@ -493,7 +482,6 @@
         private System.Windows.Forms.TextBox txtPath;
         private System.Windows.Forms.ToolStrip actionsStrip;
         private System.Windows.Forms.ToolStripButton toolBtnNewInput;
-        private System.Windows.Forms.ToolStripButton toolBtnNewFileCopy;
         private System.Windows.Forms.ToolStripButton toolBtnNewACL;
         private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.Button btnGeneratePS;
