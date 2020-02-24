@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PowerShellACLDocuments.Automators;
 using PowerShellACLDocuments.DataModeling;
+using PowerShellACLDocuments.FormSharedCode;
 using PowerShellACLDocuments.JsonMapping;
 using PowerShellACLDocuments.Scripting;
 using System;
@@ -32,6 +33,7 @@ namespace PowerShellACLDocuments
             this.aclForm.FormClosing += AclForm_FormClosing;
             this.aclForm.VisibleChanged += AuxForm_VisibleChanged;
             this.inputForm.FormClosing += InputForm_FormClosing;
+            aclGroupManageForms.FormClosing += AclGroupManageForms_FormClosing;
 
             getSettings();
 
@@ -88,8 +90,10 @@ namespace PowerShellACLDocuments
         int latestUpdated = -1;
         Package package = new Package();
         Folder workingFolder = null;
+        ButtonCopier btnCopier = new ButtonCopier();
         ActionForms.ACLForm aclForm = new ActionForms.ACLForm();
         InputParameters.InputParameterForm inputForm = new InputParameters.InputParameterForm();
+        ACLSettingsGroups aclGroupManageForms = new ACLSettingsGroups();
 
         #region mainMenu
 
@@ -285,28 +289,9 @@ namespace PowerShellACLDocuments
         {
             this.btnActionBase.Hide();
 
-            Button newBtn = copyModelObject(parameter.Name + " | " + parameter.IsInput.ToString(), this.btnActionBase, splitContainer.Panel1);
+            Button newBtn = btnCopier.copyModelObject(parameter.Name + " | " + parameter.IsInput.ToString(), this.btnActionBase, splitContainer.Panel1);
 
             splitContainer.Panel1.Controls.Add(newBtn);
-        }
-
-        private Button copyModelObject(string text, Button baseButton, Panel container)
-        {
-            Button newBtn = new Button()
-            {
-                Text = text,
-                Size = baseButton.Size,
-                Location = new Point()
-                {
-                    X = baseButton.Location.X,
-                    Y = (baseButton.Location.Y + baseButton.Size.Height) * (container.Controls.Count - 1) + 3
-                },
-                BackColor = baseButton.BackColor,
-                Anchor = baseButton.Anchor,
-                TextAlign = baseButton.TextAlign
-            };
-
-            return newBtn;
         }
 
         #endregion
@@ -393,7 +378,7 @@ namespace PowerShellACLDocuments
             for (int i = 0; i < workingFolder.Actions.Count; i++)
             {
                 BaseAction action = workingFolder.Actions[i];
-                Button newBtn = copyModelObject(action.ToString(), this.btnActionBase, targetPanel);
+                Button newBtn = btnCopier.copyModelObject(action.ToString(), this.btnActionBase, targetPanel);
                 newBtn.Click += (sender, e) => editAction_Click(sender, e, action);
                 targetPanel.Controls.Add(newBtn);
             }
@@ -489,7 +474,7 @@ namespace PowerShellACLDocuments
             for (int i = 0; i < package.Parameters.Count; i++)
             {
                 DataModeling.Parameter parameter = package.Parameters[i];
-                Button newBtn = copyModelObject(parameter.ToString(), btnInputBase, targetPanel);
+                Button newBtn = btnCopier.copyModelObject(parameter.ToString(), btnInputBase, targetPanel);
                 newBtn.Click += (sender, e) => editInput_Click(sender, e, parameter);
                 targetPanel.Controls.Add(newBtn);
             }
@@ -704,5 +689,23 @@ namespace PowerShellACLDocuments
 
         #endregion
 
+        #region ACL Groups
+        private void menuACLGroupManage_Click(object sender, EventArgs e)
+        {
+            aclGroupManageForms.package = package;
+            aclGroupManageForms.Show();
+            this.Hide();
+        }
+
+        private void AclGroupManageForms_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            aclGroupManageForms.Hide();
+            this.package.ACLSettingsGroups = aclGroupManageForms.package.ACLSettingsGroups;
+            this.Show();
+            this.Focus();
+        }
+
+        #endregion
     }
 }

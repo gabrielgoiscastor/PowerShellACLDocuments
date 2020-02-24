@@ -20,6 +20,7 @@ namespace PowerShellACLDocuments.DataModeling
         {
             this.Parameters = new List<Parameter>();
             this.Folders = new List<Folder>();
+            ACLSettingsGroups = new List<ACLSettingsGroup>();
         }
 
         public Folder FindFolder(string path, string separator = "\\")

@@ -50,6 +50,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ACLGroups\ACLGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACLGroups\ACLGroup.Designer.cs">
+      <DependentUpon>ACLGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ACLGroups\ACLSettingsGroups.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACLGroups\ACLSettingsGroups.Designer.cs">
+      <DependentUpon>ACLSettingsGroups.cs</DependentUpon>
+    </Compile>
     <Compile Include="ActionForms\ACLForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,10 +76,12 @@
     </Compile>
     <Compile Include="Automators\ConvertDirectoryStructure.cs" />
     <Compile Include="DataModeling\ACLSetting.cs" />
+    <Compile Include="DataModeling\ACLSettingsGroup.cs" />
     <Compile Include="DataModeling\BaseAction.cs" />
     <Compile Include="DataModeling\CopyFileSetting.cs" />
     <Compile Include="DataModeling\Package.cs" />
     <Compile Include="DataModeling\Parameter.cs" />
+    <Compile Include="FormSharedCode\ButtonCopier.cs" />
     <Compile Include="InputParameters\InputParameterForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,6 +99,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="psACLSettings.cs" />
     <Compile Include="Scripting\ScriptGenerator.cs" />
+    <EmbeddedResource Include="ACLGroups\ACLGroup.resx">
+      <DependentUpon>ACLGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACLGroups\ACLSettingsGroups.resx">
+      <DependentUpon>ACLSettingsGroups.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ActionForms\ACLForm.resx">
       <DependentUpon>ACLForm.cs</DependentUpon>
     </EmbeddedResource>

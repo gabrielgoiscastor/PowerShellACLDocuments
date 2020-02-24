@@ -64,6 +64,8 @@
             this.txtDefaultFolderManual = new System.Windows.Forms.TextBox();
             this.txtFolderInstructions = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.aCLGroupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuACLGroupManage = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -76,7 +78,8 @@
             // menuStrip
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.aCLGroupsToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1152, 24);
@@ -99,7 +102,7 @@
             this.newToolStripMenuItem1,
             this.newFromExistingFolderToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "New";
             // 
             // newToolStripMenuItem1
@@ -123,7 +126,7 @@
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -131,7 +134,7 @@
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -425,6 +428,21 @@
             this.label1.TabIndex = 18;
             this.label1.Text = "Folder Instructions";
             // 
+            // aCLGroupsToolStripMenuItem
+            // 
+            this.aCLGroupsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuACLGroupManage});
+            this.aCLGroupsToolStripMenuItem.Name = "aCLGroupsToolStripMenuItem";
+            this.aCLGroupsToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
+            this.aCLGroupsToolStripMenuItem.Text = "ACL Groups";
+            // 
+            // menuACLGroupManage
+            // 
+            this.menuACLGroupManage.Name = "menuACLGroupManage";
+            this.menuACLGroupManage.Size = new System.Drawing.Size(180, 22);
+            this.menuACLGroupManage.Text = "Manage";
+            this.menuACLGroupManage.Click += new System.EventHandler(this.menuACLGroupManage_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -505,5 +523,7 @@
         private System.Windows.Forms.TextBox txtFolderInstructions;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem aCLGroupsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuACLGroupManage;
     }
 }
