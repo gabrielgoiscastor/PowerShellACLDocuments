@@ -31,6 +31,7 @@ namespace PowerShellACLDocuments
 
             this.aclForm.FormClosing += AclForm_FormClosing;
             this.aclForm.VisibleChanged += AuxForm_VisibleChanged;
+            this.inputForm.FormClosing += InputForm_FormClosing;
 
             getSettings();
 
@@ -88,6 +89,7 @@ namespace PowerShellACLDocuments
         Package package = new Package();
         Folder workingFolder = null;
         ActionForms.ACLForm aclForm = new ActionForms.ACLForm();
+        InputParameters.InputParameterForm inputForm = new InputParameters.InputParameterForm();
 
         #region mainMenu
 
@@ -188,15 +190,6 @@ namespace PowerShellACLDocuments
             this.package.Folders = converter.readFolder(path);
 
             this.renderEverything();
-        }
-
-        #endregion
-
-        #region tools menu actions
-
-        private void toolBtnNewInput_Click(object sender, EventArgs e)
-        {
-
         }
 
         #endregion
@@ -403,6 +396,24 @@ namespace PowerShellACLDocuments
                 newBtn.Click += (sender, e) => editAction_Click(sender, e, action);
                 targetPanel.Controls.Add(newBtn);
             }
+        }
+
+        #endregion
+
+        #region input actions
+
+        private void toolBtnNewInput_Click(object sender, EventArgs e)
+        {
+            inputForm.Show();
+            this.Hide();
+        }
+
+        private void InputForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            this.inputForm.Hide();
+            this.Show();
+            this.Focus();
         }
 
         #endregion

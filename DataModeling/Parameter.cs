@@ -12,6 +12,8 @@ namespace PowerShellACLDocuments.DataModeling
 
         public bool IsInput { get; set; }
 
+        public string DataType { get; set; }
+
         public string Value { get; set; }
     }
 }

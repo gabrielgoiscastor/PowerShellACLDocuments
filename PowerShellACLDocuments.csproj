@@ -68,6 +68,12 @@
     <Compile Include="DataModeling\CopyFileSetting.cs" />
     <Compile Include="DataModeling\Package.cs" />
     <Compile Include="DataModeling\Parameter.cs" />
+    <Compile Include="InputParameters\InputParameterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InputParameters\InputParameterForm.Designer.cs">
+      <DependentUpon>InputParameterForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="JsonMapping\ActionContract.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
@@ -81,6 +87,9 @@
     <Compile Include="Scripting\ScriptGenerator.cs" />
     <EmbeddedResource Include="ActionForms\ACLForm.resx">
       <DependentUpon>ACLForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputParameters\InputParameterForm.resx">
+      <DependentUpon>InputParameterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
