@@ -32,6 +32,7 @@ namespace PowerShellACLDocuments
             btnActionBase.Hide();
             aclGroupForm.FormClosing += AclGroupForm_FormClosing;
             aclForm.FormClosing += AclForm_FormClosing;
+            lblAclName.Text = "";
         }
 
         private void ACLSettingsGroups_VisibleChanged(object sender, EventArgs e)
@@ -74,6 +75,7 @@ namespace PowerShellACLDocuments
             latestACLGroup = aclGroup;
             renderActions();
             pnlActions.Enabled = true;
+            lblAclName.Text = aclGroup.Name;
         }
 
         private void aclGroupEdit_Click(object sender, EventArgs e)
@@ -101,12 +103,35 @@ namespace PowerShellACLDocuments
                 renderGroups();
                 return;
             }
+
+            if (aclGroupForm.deleted)
+            {
+                this.package.ACLSettingsGroups.RemoveAt(latestUpdated);
+                renderGroups();
+                return;
+            }
+
+            this.package.ACLSettingsGroups[latestUpdated] = aclGroupForm.aclGroup;
+            renderGroups();
         }
 
 
         #endregion
 
         #region actions
+
+        public void renderActions()
+        {
+            clearAllExcept(pnlExistingActions, new string[] { "btnActionBase", "aclButtons" });
+
+            foreach (var item in latestACLGroup.Settings)
+            {
+                Button newBtn = btnCopier.copyModelObject(item.ToString(), btnActionBase, pnlExistingActions);
+                // missing: handler
+                newBtn.Click += (sender, e) => editAction_Click(sender, e, item);
+                pnlExistingActions.Controls.Add(newBtn);
+            }
+        }
 
         private void AclForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -122,7 +147,17 @@ namespace PowerShellACLDocuments
             {
                 this.latestACLGroup.Settings.Add(aclForm.aclSetting);
                 renderActions();
+                return;
             }
+            if (aclForm.delete)
+            {
+                this.latestACLGroup.Settings.RemoveAt(latestACL);
+                renderActions();
+                return;
+            }
+
+            latestACLGroup.Settings[latestACL] = aclForm.aclSetting;
+            renderActions();
         }
 
         private void aclButtonNewACL_Click(object sender, EventArgs e)
@@ -133,15 +168,15 @@ namespace PowerShellACLDocuments
             this.Hide();
         }
 
-        public void renderActions()
+        private void editAction_Click(object sender, EventArgs e, ACLSetting action)
         {
-            clearAllExcept(pnlExistingActions, new string[] { "btnActionBase", "aclButtons" });
+            this.latestACL = latestACLGroup.Settings.IndexOf(action);
 
-            foreach (var item in latestACLGroup.Settings)
+            if (action is ACLSetting)
             {
-                Button newBtn = btnCopier.copyModelObject(item.ToString(), btnActionBase, pnlExistingActions);
-                // missing: handler
-                pnlExistingActions.Controls.Add(newBtn);
+                this.aclForm.initialize(action as ACLSetting, latestACLGroup.Settings != null ? latestACLGroup.Settings.Count : 0, latestACL);
+                this.aclForm.Show();
+                this.Hide();
             }
         }
 

@@ -143,7 +143,7 @@
             this.lblAclName.AutoSize = true;
             this.lblAclName.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.lblAclName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAclName.Location = new System.Drawing.Point(218, 12);
+            this.lblAclName.Location = new System.Drawing.Point(224, 12);
             this.lblAclName.Name = "lblAclName";
             this.lblAclName.Size = new System.Drawing.Size(40, 20);
             this.lblAclName.TabIndex = 2;
