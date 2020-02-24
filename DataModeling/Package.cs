@@ -13,6 +13,7 @@ namespace PowerShellACLDocuments.DataModeling
 
         public List<Parameter> Parameters { get; set; }
         public List<Folder> Folders { get; set; }
+        public List<ACLSettingsGroup> ACLSettingsGroups { get; set; }
         public string FolderInstructionsDefaultFileName { get; set; }
 
         public Package()

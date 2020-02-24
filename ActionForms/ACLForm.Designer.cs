@@ -51,14 +51,14 @@
             this.lblUser = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pnlPermissions = new System.Windows.Forms.GroupBox();
             this.btnDelete = new System.Windows.Forms.Button();
             this.lblPath = new System.Windows.Forms.Label();
             this.lblRealPath = new System.Windows.Forms.Label();
             this.lblMovePosition = new System.Windows.Forms.Label();
             this.cbPosition = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.pnlPermissions.SuspendLayout();
             this.SuspendLayout();
             // 
             // chkFullControl
@@ -70,6 +70,7 @@
             this.chkFullControl.TabIndex = 6;
             this.chkFullControl.Text = "Full Control";
             this.chkFullControl.UseVisualStyleBackColor = true;
+            this.chkFullControl.Click += new System.EventHandler(this.chkFullControl_Click);
             // 
             // btnComplete
             // 
@@ -144,6 +145,7 @@
             this.chkTraverseFolderExecuteFile.TabIndex = 7;
             this.chkTraverseFolderExecuteFile.Text = "Traverse Folder / Execute File";
             this.chkTraverseFolderExecuteFile.UseVisualStyleBackColor = true;
+            this.chkTraverseFolderExecuteFile.Click += new System.EventHandler(this.chkOthers_Click);
             // 
             // chkListFolderReadData
             // 
@@ -154,6 +156,7 @@
             this.chkListFolderReadData.TabIndex = 8;
             this.chkListFolderReadData.Text = "List Folder / Read Data";
             this.chkListFolderReadData.UseVisualStyleBackColor = true;
+            this.chkListFolderReadData.Click += new System.EventHandler(this.chkOthers_Click);
             // 
             // chkReadAttributes
             // 
@@ -164,6 +167,7 @@
             this.chkReadAttributes.TabIndex = 9;
             this.chkReadAttributes.Text = "Read Attributes";
             this.chkReadAttributes.UseVisualStyleBackColor = true;
+            this.chkReadAttributes.Click += new System.EventHandler(this.chkOthers_Click);
             // 
             // chkReadExtendedAttributes
             // 
@@ -174,6 +178,7 @@
             this.chkReadExtendedAttributes.TabIndex = 10;
             this.chkReadExtendedAttributes.Text = "Read Extended Attributes";
             this.chkReadExtendedAttributes.UseVisualStyleBackColor = true;
+            this.chkReadExtendedAttributes.Click += new System.EventHandler(this.chkOthers_Click);
             // 
             // chkCreateFilesWriteData
             // 
@@ -184,6 +189,7 @@
             this.chkCreateFilesWriteData.TabIndex = 11;
             this.chkCreateFilesWriteData.Text = "Create Files / Write Data";
             this.chkCreateFilesWriteData.UseVisualStyleBackColor = true;
+            this.chkCreateFilesWriteData.Click += new System.EventHandler(this.chkOthers_Click);
             // 
             // chkCreateFoldersAppendData
             // 
@@ -194,6 +200,7 @@
             this.chkCreateFoldersAppendData.TabIndex = 12;
             this.chkCreateFoldersAppendData.Text = "Create Folders / Append Data";
             this.chkCreateFoldersAppendData.UseVisualStyleBackColor = true;
+            this.chkCreateFoldersAppendData.Click += new System.EventHandler(this.chkOthers_Click);
             // 
             // chkWriteAttributes
             // 
@@ -204,6 +211,7 @@
             this.chkWriteAttributes.TabIndex = 13;
             this.chkWriteAttributes.Text = "Write Attributes";
             this.chkWriteAttributes.UseVisualStyleBackColor = true;
+            this.chkWriteAttributes.Click += new System.EventHandler(this.chkOthers_Click);
             // 
             // chkWriteExtendedAttributes
             // 
@@ -214,6 +222,7 @@
             this.chkWriteExtendedAttributes.TabIndex = 14;
             this.chkWriteExtendedAttributes.Text = "Write Extended Attributes";
             this.chkWriteExtendedAttributes.UseVisualStyleBackColor = true;
+            this.chkWriteExtendedAttributes.Click += new System.EventHandler(this.chkOthers_Click);
             // 
             // chkDeleteSubfoldersAndFiles
             // 
@@ -224,6 +233,7 @@
             this.chkDeleteSubfoldersAndFiles.TabIndex = 15;
             this.chkDeleteSubfoldersAndFiles.Text = "Delete Subfolders And Files";
             this.chkDeleteSubfoldersAndFiles.UseVisualStyleBackColor = true;
+            this.chkDeleteSubfoldersAndFiles.Click += new System.EventHandler(this.chkOthers_Click);
             // 
             // chkDelete
             // 
@@ -234,6 +244,7 @@
             this.chkDelete.TabIndex = 16;
             this.chkDelete.Text = "Delete";
             this.chkDelete.UseVisualStyleBackColor = true;
+            this.chkDelete.Click += new System.EventHandler(this.chkOthers_Click);
             // 
             // chkReadPermissions
             // 
@@ -244,6 +255,7 @@
             this.chkReadPermissions.TabIndex = 17;
             this.chkReadPermissions.Text = "Read Permissions";
             this.chkReadPermissions.UseVisualStyleBackColor = true;
+            this.chkReadPermissions.Click += new System.EventHandler(this.chkOthers_Click);
             // 
             // chkChangePermissions
             // 
@@ -254,6 +266,7 @@
             this.chkChangePermissions.TabIndex = 18;
             this.chkChangePermissions.Text = "Change Permissions";
             this.chkChangePermissions.UseVisualStyleBackColor = true;
+            this.chkChangePermissions.Click += new System.EventHandler(this.chkOthers_Click);
             // 
             // chkTakeOwnership
             // 
@@ -264,6 +277,7 @@
             this.chkTakeOwnership.TabIndex = 19;
             this.chkTakeOwnership.Text = "Take Ownership";
             this.chkTakeOwnership.UseVisualStyleBackColor = true;
+            this.chkTakeOwnership.Click += new System.EventHandler(this.chkOthers_Click);
             // 
             // txtWho
             // 
@@ -301,28 +315,28 @@
             this.panel1.Size = new System.Drawing.Size(109, 25);
             this.panel1.TabIndex = 3;
             // 
-            // groupBox1
+            // pnlPermissions
             // 
-            this.groupBox1.Controls.Add(this.chkFullControl);
-            this.groupBox1.Controls.Add(this.chkTraverseFolderExecuteFile);
-            this.groupBox1.Controls.Add(this.chkListFolderReadData);
-            this.groupBox1.Controls.Add(this.chkReadAttributes);
-            this.groupBox1.Controls.Add(this.chkReadExtendedAttributes);
-            this.groupBox1.Controls.Add(this.chkTakeOwnership);
-            this.groupBox1.Controls.Add(this.chkCreateFilesWriteData);
-            this.groupBox1.Controls.Add(this.chkChangePermissions);
-            this.groupBox1.Controls.Add(this.chkCreateFoldersAppendData);
-            this.groupBox1.Controls.Add(this.chkReadPermissions);
-            this.groupBox1.Controls.Add(this.chkWriteAttributes);
-            this.groupBox1.Controls.Add(this.chkDelete);
-            this.groupBox1.Controls.Add(this.chkWriteExtendedAttributes);
-            this.groupBox1.Controls.Add(this.chkDeleteSubfoldersAndFiles);
-            this.groupBox1.Location = new System.Drawing.Point(15, 141);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(390, 201);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Permissions";
+            this.pnlPermissions.Controls.Add(this.chkFullControl);
+            this.pnlPermissions.Controls.Add(this.chkTraverseFolderExecuteFile);
+            this.pnlPermissions.Controls.Add(this.chkListFolderReadData);
+            this.pnlPermissions.Controls.Add(this.chkReadAttributes);
+            this.pnlPermissions.Controls.Add(this.chkReadExtendedAttributes);
+            this.pnlPermissions.Controls.Add(this.chkTakeOwnership);
+            this.pnlPermissions.Controls.Add(this.chkCreateFilesWriteData);
+            this.pnlPermissions.Controls.Add(this.chkChangePermissions);
+            this.pnlPermissions.Controls.Add(this.chkCreateFoldersAppendData);
+            this.pnlPermissions.Controls.Add(this.chkReadPermissions);
+            this.pnlPermissions.Controls.Add(this.chkWriteAttributes);
+            this.pnlPermissions.Controls.Add(this.chkDelete);
+            this.pnlPermissions.Controls.Add(this.chkWriteExtendedAttributes);
+            this.pnlPermissions.Controls.Add(this.chkDeleteSubfoldersAndFiles);
+            this.pnlPermissions.Location = new System.Drawing.Point(15, 141);
+            this.pnlPermissions.Name = "pnlPermissions";
+            this.pnlPermissions.Size = new System.Drawing.Size(390, 201);
+            this.pnlPermissions.TabIndex = 5;
+            this.pnlPermissions.TabStop = false;
+            this.pnlPermissions.Text = "Permissions";
             // 
             // btnDelete
             // 
@@ -384,7 +398,7 @@
             this.Controls.Add(this.lblMovePosition);
             this.Controls.Add(this.lblRealPath);
             this.Controls.Add(this.btnDelete);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.pnlPermissions);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtWho);
@@ -397,8 +411,8 @@
             this.Text = "ACLForm";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.pnlPermissions.ResumeLayout(false);
+            this.pnlPermissions.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -429,7 +443,7 @@
         private System.Windows.Forms.Label lblUser;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox pnlPermissions;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Label lblPath;
         private System.Windows.Forms.Label lblRealPath;

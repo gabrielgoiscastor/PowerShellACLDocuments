@@ -33,6 +33,8 @@ namespace PowerShellACLDocuments.DataModeling
         public bool ChangePermissions { get; set; }
         public bool TakeOwnership { get; set; }
 
+        public Guid GroupId { get; set; }
+
         public override string ToString()
         {
             string returnObj = "- " + this.ForWho + " | " + this.AllowOrDeny() + " | " + this.AccessRights();

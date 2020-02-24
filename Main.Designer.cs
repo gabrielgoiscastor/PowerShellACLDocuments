@@ -164,7 +164,7 @@
             this.splitContainer.Panel2.AutoScroll = true;
             this.splitContainer.Panel2.Controls.Add(this.btnInputBase);
             this.splitContainer.Size = new System.Drawing.Size(522, 320);
-            this.splitContainer.SplitterDistance = 356;
+            this.splitContainer.SplitterDistance = 320;
             this.splitContainer.TabIndex = 3;
             // 
             // btnActionBase
@@ -174,7 +174,7 @@
             this.btnActionBase.BackColor = System.Drawing.SystemColors.Control;
             this.btnActionBase.Location = new System.Drawing.Point(3, 3);
             this.btnActionBase.Name = "btnActionBase";
-            this.btnActionBase.Size = new System.Drawing.Size(350, 41);
+            this.btnActionBase.Size = new System.Drawing.Size(314, 41);
             this.btnActionBase.TabIndex = 0;
             this.btnActionBase.Text = "Action";
             this.btnActionBase.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -187,7 +187,7 @@
             this.btnInputBase.BackColor = System.Drawing.SystemColors.Control;
             this.btnInputBase.Location = new System.Drawing.Point(3, 3);
             this.btnInputBase.Name = "btnInputBase";
-            this.btnInputBase.Size = new System.Drawing.Size(156, 41);
+            this.btnInputBase.Size = new System.Drawing.Size(192, 41);
             this.btnInputBase.TabIndex = 1;
             this.btnInputBase.Text = "Input";
             this.btnInputBase.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

@@ -169,5 +169,25 @@ namespace PowerShellACLDocuments.ActionForms
             executed = true;
             this.Close();
         }
+
+        private void chkFullControl_Click(object sender, EventArgs e)
+        {
+            bool check = chkFullControl.Checked;
+            foreach (var item in pnlPermissions.Controls)
+            {
+                if ((item as CheckBox).Name != "chkFullControl")
+                {
+                    (item as CheckBox).Checked = check;
+                }
+            }
+        }
+
+        private void chkOthers_Click(object sender, EventArgs e)
+        {
+            if (chkFullControl.Checked)
+            {
+                chkFullControl.Checked = false;
+            }
+        }
     }
 }
