@@ -14,6 +14,7 @@ namespace PowerShellACLDocuments.InputParameters
     {
         public DataModeling.Parameter parameter = null;
         public bool executed = false;
+        public bool deleted = false;
 
         public InputParameterForm()
         {
@@ -23,14 +24,17 @@ namespace PowerShellACLDocuments.InputParameters
         public void initialize(DataModeling.Parameter parameter)
         {
             executed = false;
+            deleted = false;
             if (parameter == null)
             {
                 this.clearForm();
+                btnDeleteInput.Hide();
                 this.parameter = new DataModeling.Parameter();
                 return;
             }
 
             this.parameter = parameter;
+            btnDeleteInput.Show();
             txtValue.Text = parameter.Value;
             txtName.Text = parameter.Name;
             cbbType.SelectedIndex = parameter.IsInput ? 2 : 1;
@@ -75,11 +79,22 @@ namespace PowerShellACLDocuments.InputParameters
             {
                 DataType = cbbInputType.SelectedItem.ToString(),
                 IsInput = cbbType.SelectedIndex == 2,
-                Name = txtName.Text,
-                Value = txtValue.Text
+                Name = txtName.Text != null ?  txtName.Text : "",
+                Value = txtName.Text != null ? txtValue.Text : ""
             };
 
             executed = true;
+            this.Close();
+        }
+
+        private void btnDeleteInput_Click(object sender, EventArgs e)
+        {
+            if(MessageBox.Show("Sure?", "Delete?", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+            {
+                return;
+            }
+            this.deleted = true;
+            this.executed = true;
             this.Close();
         }
     }

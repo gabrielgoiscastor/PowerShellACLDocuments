@@ -38,6 +38,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.cbbType = new System.Windows.Forms.ComboBox();
             this.pnlValues = new System.Windows.Forms.Panel();
+            this.btnDeleteInput = new System.Windows.Forms.Button();
             this.pnlValues.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,7 +57,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtName.Location = new System.Drawing.Point(104, 6);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(609, 20);
+            this.txtName.Size = new System.Drawing.Size(757, 20);
             this.txtName.TabIndex = 1;
             // 
             // cbbInputType
@@ -71,7 +72,7 @@
             "Array"});
             this.cbbInputType.Location = new System.Drawing.Point(95, 3);
             this.cbbInputType.Name = "cbbInputType";
-            this.cbbInputType.Size = new System.Drawing.Size(608, 21);
+            this.cbbInputType.Size = new System.Drawing.Size(756, 21);
             this.cbbInputType.TabIndex = 3;
             this.cbbInputType.SelectedIndexChanged += new System.EventHandler(this.cbbInputType_SelectedIndexChanged);
             // 
@@ -91,7 +92,7 @@
             this.txtValue.Location = new System.Drawing.Point(95, 30);
             this.txtValue.Multiline = true;
             this.txtValue.Name = "txtValue";
-            this.txtValue.Size = new System.Drawing.Size(608, 150);
+            this.txtValue.Size = new System.Drawing.Size(756, 150);
             this.txtValue.TabIndex = 4;
             // 
             // label3
@@ -105,10 +106,10 @@
             // 
             // btnFinish
             // 
-            this.btnFinish.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFinish.Location = new System.Drawing.Point(722, 6);
+            this.btnFinish.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFinish.Location = new System.Drawing.Point(719, 251);
             this.btnFinish.Name = "btnFinish";
-            this.btnFinish.Size = new System.Drawing.Size(145, 233);
+            this.btnFinish.Size = new System.Drawing.Size(145, 41);
             this.btnFinish.TabIndex = 5;
             this.btnFinish.Text = "Finish configuration";
             this.btnFinish.UseVisualStyleBackColor = true;
@@ -135,7 +136,7 @@
             "Type as PowerShell input"});
             this.cbbType.Location = new System.Drawing.Point(104, 32);
             this.cbbType.Name = "cbbType";
-            this.cbbType.Size = new System.Drawing.Size(609, 21);
+            this.cbbType.Size = new System.Drawing.Size(757, 21);
             this.cbbType.TabIndex = 2;
             this.cbbType.SelectedIndexChanged += new System.EventHandler(this.cbbType_SelectedIndexChanged);
             // 
@@ -149,14 +150,27 @@
             this.pnlValues.Controls.Add(this.label3);
             this.pnlValues.Location = new System.Drawing.Point(10, 59);
             this.pnlValues.Name = "pnlValues";
-            this.pnlValues.Size = new System.Drawing.Size(706, 186);
+            this.pnlValues.Size = new System.Drawing.Size(854, 186);
             this.pnlValues.TabIndex = 8;
+            // 
+            // btnDeleteInput
+            // 
+            this.btnDeleteInput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDeleteInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.btnDeleteInput.Location = new System.Drawing.Point(10, 251);
+            this.btnDeleteInput.Name = "btnDeleteInput";
+            this.btnDeleteInput.Size = new System.Drawing.Size(145, 41);
+            this.btnDeleteInput.TabIndex = 9;
+            this.btnDeleteInput.Text = "Delete Input";
+            this.btnDeleteInput.UseVisualStyleBackColor = false;
+            this.btnDeleteInput.Click += new System.EventHandler(this.btnDeleteInput_Click);
             // 
             // InputParameterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(876, 247);
+            this.ClientSize = new System.Drawing.Size(876, 300);
+            this.Controls.Add(this.btnDeleteInput);
             this.Controls.Add(this.pnlValues);
             this.Controls.Add(this.cbbType);
             this.Controls.Add(this.label4);
@@ -184,5 +198,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cbbType;
         private System.Windows.Forms.Panel pnlValues;
+        private System.Windows.Forms.Button btnDeleteInput;
     }
 }

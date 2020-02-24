@@ -32,14 +32,14 @@ namespace PowerShellACLDocuments.Scripting
 
             foreach (var item in package.Folders)
             {
-                builder.Append(mixing(item, basePath, package.FolderInstructionsDefaultFileNameValidated()));
+                builder.Append(mixing(item, basePath, package));
                 continue;
             }
 
             return builder.ToString();
         }
 
-        private string mixing(Folder createFolder, string basePath, string manualDefaultFileName)
+        private string mixing(Folder createFolder, string basePath, Package package)
         {
             string returnObj = "";
 
@@ -51,9 +51,9 @@ namespace PowerShellACLDocuments.Scripting
             string fullPath = basePath + createFolder.Name + @"\";
 
             // create intructions
-            if(string.IsNullOrEmpty(createFolder.FolderInstructions) == false && manualDefaultFileName != ".txt")
+            if(string.IsNullOrEmpty(createFolder.FolderInstructions) == false && package.FolderInstructionsDefaultFileNameValidated() != ".txt")
             {
-                returnObj += createManualFile.Replace("@filePath", basePath + createFolder.Name + "\\" + manualDefaultFileName).Replace("@fileContent", createFolder.FolderInstructions);
+                returnObj += createManualFile.Replace("@filePath", basePath + createFolder.Name + "\\" + package.FolderInstructionsDefaultFileNameValidated()).Replace("@fileContent", createFolder.FolderInstructions);
             }
 
             // create actions
@@ -63,7 +63,9 @@ namespace PowerShellACLDocuments.Scripting
                 {
                     if (item is ACLSetting)
                     {
-                        returnObj += mixing(item as ACLSetting, fullPath);
+                        ACLSetting itemAsAcl = item as ACLSetting;
+                        // check if ACL action has a inner parameter as it's target
+                        returnObj += mixing(item as ACLSetting, fullPath, package);
                     }
                 }
             }
@@ -73,14 +75,14 @@ namespace PowerShellACLDocuments.Scripting
             {
                 foreach (var item in createFolder.Folders)
                 {
-                    returnObj += mixing(item, fullPath, manualDefaultFileName);
+                    returnObj += mixing(item, fullPath, package);
                 }
             }
 
             return returnObj;
         }
 
-        private string mixing(ACLSetting acl, string aclPath)
+        private string mixing(ACLSetting acl, string aclPath, Package package)
         {
             string returnObj = "";
 
@@ -89,14 +91,32 @@ namespace PowerShellACLDocuments.Scripting
             ACLPropagationAndInheritanceSettings propagationVariable = acl.PropagationAndInheritanceSettings();
 
             aclTXT = aclTXT.Replace("@actionPath", aclPath);
-            aclTXT = aclTXT.Replace("@who", acl.ForWho);
+            
             aclTXT = aclTXT.Replace("@rights", acl.AccessRights());
             aclTXT = aclTXT.Replace("@allowDeny", acl.AllowOrDeny());
             aclTXT = aclTXT.Replace("@inherit", propagationVariable.Inheritance);
             aclTXT = aclTXT.Replace("@propagation", propagationVariable.Propagation);
 
-            returnObj += aclTXT;
-            returnObj += "\n\n";
+            if (package.Parameters.Where(x => x.Name == acl.ForWho).Any())
+            {
+                Parameter par = package.Parameters.Where(x => x.Name == acl.ForWho).First();
+
+                string[] values = par.Value.Replace("\r","").Split(new char[] { '\n' });
+
+                foreach (var item in values)
+                {
+                    string innerAclTXT = aclTXT;
+                    innerAclTXT = innerAclTXT.Replace("@who", item);
+                    returnObj += innerAclTXT;
+                    returnObj += "\n\n";
+                }
+            }
+            else
+            {
+                aclTXT = aclTXT.Replace("@who", acl.ForWho);
+                returnObj += aclTXT;
+                returnObj += "\n\n";
+            }
 
             return returnObj;
         }

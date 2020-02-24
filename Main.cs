@@ -414,16 +414,46 @@ namespace PowerShellACLDocuments
         private void InputForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
+
+            if (inputForm.executed == false)
+            {
+                this.Show();
+                this.Focus();
+                return;
+            }
+
+            if (inputForm.deleted)
+            {
+                this.inputForm.Hide();
+                this.Show();
+                this.Focus();
+                package.Parameters.RemoveAt(latestUpdated);
+                renderParameters();
+                return;
+            }
+
+            // check parameter name
+            for (int i = 0; i < package.Parameters.Count; i++)
+            {
+                if(i == latestUpdated)
+                {
+                    continue;
+                }
+                Parameter p = package.Parameters[i];
+
+                if(p.Name == inputForm.parameter.Name)
+                {
+                    MessageBox.Show("Parameter with name " + inputForm.parameter.Name + " already exists");
+                    this.inputForm.Show();
+                    return;
+                }
+            }
+
             this.inputForm.Hide();
             this.Show();
             this.Focus();
 
-            if (inputForm.executed == false)
-            {
-                return;
-            }
-
-            if(latestUpdated == -1)
+            if (latestUpdated == -1)
             {
                 if(this.package.Parameters == null) { this.package.Parameters = new List<Parameter>(); }
                 this.package.Parameters.Add(this.inputForm.parameter);
@@ -619,9 +649,11 @@ namespace PowerShellACLDocuments
                 btnDeleteFolder.Show();
                 btnClearSelection.Show();
                 txtFolderInstructions.Enabled = true;
+                toolBtnNewACL.Enabled = true;
                 return;
             }
 
+            toolBtnNewACL.Enabled = false;
             btnRenameFolder.Hide();
             btnDeleteFolder.Hide();
             btnClearSelection.Hide();

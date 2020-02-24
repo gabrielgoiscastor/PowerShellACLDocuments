@@ -80,6 +80,10 @@ namespace PowerShellACLDocuments.ActionForms
             this.aclSetting = new DataModeling.ACLSetting();
             this.txtWho.Text = "";
             cbbLevel.SelectedItem = "Select";
+            if (cbPosition.Items.Count == 1)
+            {
+                cbPosition.Items.Add("0");
+            }
 
             this.rdbAllow.Checked = this.rdbDeny.Checked = false;
 
@@ -117,7 +121,7 @@ namespace PowerShellACLDocuments.ActionForms
                 errorMessage("Define level");
                 return;
             }
-            if (cbPosition.SelectedIndex == 0)
+            if (cbPosition.SelectedIndex == 0 || cbPosition.SelectedIndex == -1)
             {
                 errorMessage("Define position");
                 return;
