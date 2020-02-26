@@ -598,8 +598,6 @@ namespace PowerShellACLDocuments
 
         private void btnClearSelection_Click(object sender, EventArgs e)
         {
-            lblConfigsFor.Text = "";
-            foldersTree.SelectedNode = null;
             folderActions(false);
         }
 
@@ -643,11 +641,15 @@ namespace PowerShellACLDocuments
             this.workingFolder.Name = folderName;
             foldersTree.SelectedNode.Text = folderName;
             foldersTree.Sort();
+            workingFolder = null;
+            somethingChange(false);
             folderActions(false);
         }
 
         private void folderActions(bool show)
         {
+            renderActions();
+
             if (show)
             {
                 btnRenameFolder.Show();
@@ -659,6 +661,8 @@ namespace PowerShellACLDocuments
                 return;
             }
 
+            lblConfigsFor.Text = "";
+            foldersTree.SelectedNode = null;
             toolBtnNewACL.Enabled = false;
             toolAddActionFromGroups.Enabled = false;
             btnRenameFolder.Hide();
