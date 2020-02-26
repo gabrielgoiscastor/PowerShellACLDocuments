@@ -51,5 +51,11 @@ namespace PowerShellACLDocuments.ACLGroups
             SelectedGroup = cbbGroupSelect.SelectedItem as ACLSettingsGroup;
             this.Close();
         }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.SelectedGroup = null;
+            this.Close();
+        }
     }
 }

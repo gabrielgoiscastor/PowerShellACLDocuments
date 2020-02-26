@@ -421,6 +421,7 @@ namespace PowerShellACLDocuments
 
             if (inputForm.executed == false)
             {
+                inputForm.Hide();
                 this.Show();
                 this.Focus();
                 return;
@@ -734,6 +735,8 @@ namespace PowerShellACLDocuments
             {
                 this.renderActions();
             }
+
+            somethingChange(false);
 
             this.Show();
             this.Focus();

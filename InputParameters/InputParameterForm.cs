@@ -63,6 +63,10 @@ namespace PowerShellACLDocuments.InputParameters
 
         private void cbbInputType_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if(cbbInputType.SelectedItem == null)
+            {
+                return;
+            }
             if(cbbInputType.SelectedItem.ToString() == "Array")
             {
                 txtValue.Multiline = true;
