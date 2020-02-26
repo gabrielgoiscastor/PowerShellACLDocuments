@@ -81,11 +81,51 @@ namespace PowerShellACLDocuments.DataModeling
         public List<BaseAction> Actions { get; set; }
         public List<Folder> Folders { get; set; }
         public string FolderInstructions { get; set; }
+        public List<Guid> AppliedACLGroup { get; set; }
 
         public Folder()
         {
-            this.Folders = new List<Folder>();
-            this.Actions = new List<BaseAction>();
+            Folders = new List<Folder>();
+            Actions = new List<BaseAction>();
+            AppliedACLGroup = new List<Guid>();
+        }
+
+        public void UpdateIfAnyInherited(List<ACLSettingsGroup> updatedGroups)
+        {
+            List<Guid> updatedIds = updatedGroups.Select(x => x.Id).ToList();
+
+            UpdateIfAnyInherited(updatedGroups, updatedIds);
+        }
+
+        public void UpdateIfAnyInherited(List<ACLSettingsGroup> updatedGroups, List<Guid> updatedIds)
+        {
+            // if this folder have any of the applied groups
+            if(this.AppliedACLGroup.Where(x => updatedIds.Contains(x)).Any())
+            {
+                var remove = Actions.Where(x => x is ACLSetting).Where(x => updatedIds.Contains((x as ACLSetting).GroupId)).ToList();
+
+                for (int i = remove.Count - 1; i >= 0; i--)
+                {
+                    Actions.Remove(remove[i]);
+                }
+
+                foreach (var group in this.AppliedACLGroup.Where(x => updatedIds.Contains(x)))
+                {
+                    var realGroup = updatedGroups.Where(x => x.Id == group).FirstOrDefault();
+
+                    if(realGroup == null)
+                    {
+                        continue;
+                    }
+                    this.Actions.AddRange(realGroup.CopySettings());
+                }
+            }
+
+            // apply to children
+            foreach (var item in Folders)
+            {
+                item.UpdateIfAnyInherited(updatedGroups, updatedIds);
+            }
         }
     }
 }

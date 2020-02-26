@@ -56,6 +56,12 @@
     <Compile Include="ACLGroups\ACLGroup.Designer.cs">
       <DependentUpon>ACLGroup.cs</DependentUpon>
     </Compile>
+    <Compile Include="ACLGroups\ACLGroupSelectToAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACLGroups\ACLGroupSelectToAdd.Designer.cs">
+      <DependentUpon>ACLGroupSelectToAdd.cs</DependentUpon>
+    </Compile>
     <Compile Include="ACLGroups\ACLSettingsGroups.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +107,9 @@
     <Compile Include="Scripting\ScriptGenerator.cs" />
     <EmbeddedResource Include="ACLGroups\ACLGroup.resx">
       <DependentUpon>ACLGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACLGroups\ACLGroupSelectToAdd.resx">
+      <DependentUpon>ACLGroupSelectToAdd.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ACLGroups\ACLSettingsGroups.resx">
       <DependentUpon>ACLSettingsGroups.cs</DependentUpon>

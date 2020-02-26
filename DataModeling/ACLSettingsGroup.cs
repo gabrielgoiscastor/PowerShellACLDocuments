@@ -18,5 +18,20 @@ namespace PowerShellACLDocuments.DataModeling
         {
             Settings = new List<ACLSetting>();
         }
+
+        public List<ACLSetting> CopySettings()
+        {
+            string serialized = Newtonsoft.Json.JsonConvert.SerializeObject(Settings);
+
+            List<ACLSetting> deserialized = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ACLSetting>>(serialized);
+
+            foreach (var item in deserialized)
+            {
+                item.BgColor = Color;
+                item.GroupId = Id;
+            }
+
+            return deserialized;
+        }
     }
 }

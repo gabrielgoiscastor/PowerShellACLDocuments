@@ -34,6 +34,7 @@ namespace PowerShellACLDocuments
             this.aclForm.VisibleChanged += AuxForm_VisibleChanged;
             this.inputForm.FormClosing += InputForm_FormClosing;
             aclGroupManageForms.FormClosing += AclGroupManageForms_FormClosing;
+            aclAddGroup.FormClosing += AclAddGroup_FormClosing;
 
             getSettings();
 
@@ -94,6 +95,7 @@ namespace PowerShellACLDocuments
         ActionForms.ACLForm aclForm = new ActionForms.ACLForm();
         InputParameters.InputParameterForm inputForm = new InputParameters.InputParameterForm();
         ACLSettingsGroups aclGroupManageForms = new ACLSettingsGroups();
+        ACLGroups.ACLGroupSelectToAdd aclAddGroup = new ACLGroups.ACLGroupSelectToAdd();
 
         #region mainMenu
 
@@ -380,8 +382,25 @@ namespace PowerShellACLDocuments
                 BaseAction action = workingFolder.Actions[i];
                 Button newBtn = btnCopier.copyModelObject(action.ToString(), this.btnActionBase, targetPanel);
                 newBtn.Click += (sender, e) => editAction_Click(sender, e, action);
+
+                if(action is ACLSetting)
+                {
+                    var a = (action as ACLSetting);
+                    if (a.BgColor.IsEmpty == false)
+                    {
+                        newBtn.BackColor = a.BgColor;
+                    }
+                }
+
                 targetPanel.Controls.Add(newBtn);
             }
+        }
+
+        private void toolAddActionFromGroups_Click(object sender, EventArgs e)
+        {
+            aclAddGroup.initialize(package.ACLSettingsGroups);
+            aclAddGroup.Show();
+            this.Hide();
         }
 
         #endregion
@@ -635,10 +654,12 @@ namespace PowerShellACLDocuments
                 btnClearSelection.Show();
                 txtFolderInstructions.Enabled = true;
                 toolBtnNewACL.Enabled = true;
+                toolAddActionFromGroups.Enabled = true;
                 return;
             }
 
             toolBtnNewACL.Enabled = false;
+            toolAddActionFromGroups.Enabled = false;
             btnRenameFolder.Hide();
             btnDeleteFolder.Hide();
             btnClearSelection.Hide();
@@ -702,8 +723,39 @@ namespace PowerShellACLDocuments
             e.Cancel = true;
             aclGroupManageForms.Hide();
             this.package.ACLSettingsGroups = aclGroupManageForms.package.ACLSettingsGroups;
+
+            // update all groups within folders
+            foreach(var folder in this.package.Folders)
+            {
+                folder.UpdateIfAnyInherited(package.ACLSettingsGroups);
+            }
+
+            if(workingFolder != null)
+            {
+                this.renderActions();
+            }
+
             this.Show();
             this.Focus();
+        }
+
+        private void AclAddGroup_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            this.Show();
+            aclAddGroup.Hide();
+
+            if(aclAddGroup.SelectedGroup == null)
+            {
+                return;
+            }
+
+            workingFolder.Actions.AddRange(aclAddGroup.SelectedGroup.CopySettings());
+            if (workingFolder.AppliedACLGroup.Contains(aclAddGroup.SelectedGroup.Id) == false)
+            {
+                workingFolder.AppliedACLGroup.Add(aclAddGroup.SelectedGroup.Id);
+            }
+            renderActions();
         }
 
         #endregion

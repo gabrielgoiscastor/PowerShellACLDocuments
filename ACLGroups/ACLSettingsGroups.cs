@@ -157,6 +157,12 @@ namespace PowerShellACLDocuments
             }
 
             latestACLGroup.Settings[latestACL] = aclForm.aclSetting;
+
+            if (aclForm.moveToPosition.HasValue)
+            {
+                latestACLGroup.Settings.RemoveAt(latestACL);
+                latestACLGroup.Settings.Insert(aclForm.moveToPosition.Value, aclForm.aclSetting);
+            }
             renderActions();
         }
 

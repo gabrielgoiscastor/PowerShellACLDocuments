@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -34,6 +35,8 @@ namespace PowerShellACLDocuments.DataModeling
         public bool TakeOwnership { get; set; }
 
         public Guid GroupId { get; set; }
+
+        public Color BgColor { get; set; }
 
         public override string ToString()
         {
