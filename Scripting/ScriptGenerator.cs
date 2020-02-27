@@ -51,10 +51,27 @@ namespace PowerShellACLDocuments.Scripting
             string fullPath = basePath + createFolder.Name + @"\";
 
             // create intructions
-            //if(string.IsNullOrEmpty(createFolder.FolderInstructions) == false && package.FolderInstructionsDefaultFileNameValidated() != ".txt")
-            //{
-            //    returnObj += createManualFile.Replace("@filePath", basePath + createFolder.Name + "\\" + package.FolderInstructionsDefaultFileNameValidated()).Replace("@fileContent", createFolder.FolderInstructions.Replace("\n\r","\\n\\r"));
-            //}
+            if (string.IsNullOrEmpty(createFolder.FolderInstructions) == false && package.FolderInstructionsDefaultFileNameValidated() != ".txt")
+            {
+                string manual = createFolder.FolderInstructions;
+                string[] escapeChars = new string[] { "@", "!", "(", ")", "|", "&", "\"", "," };
+
+                ////PS
+                foreach (var character in escapeChars)
+                {
+                    manual = manual.Replace(character, "`" + character);
+                }
+
+                //VS
+                //escapeChars = new string[] { "\n", "\r", "-" };
+                //var targetChars = new string[] { "\\n", "\\r", "`-" };
+                //for (int i = 0; i < escapeChars.Length; i++)
+                //{
+                //    manual = manual.Replace(escapeChars[i], targetChars[i]);
+                //}
+
+                returnObj += createManualFile.Replace("@filePath", basePath + createFolder.Name + "\\" + package.FolderInstructionsDefaultFileNameValidated()).Replace("@fileContent", manual);
+            }
 
             // create actions
             if (createFolder.Actions != null)
