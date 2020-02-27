@@ -62,14 +62,6 @@ namespace PowerShellACLDocuments.Scripting
                     manual = manual.Replace(character, "`" + character);
                 }
 
-                //VS
-                //escapeChars = new string[] { "\n", "\r", "-" };
-                //var targetChars = new string[] { "\\n", "\\r", "`-" };
-                //for (int i = 0; i < escapeChars.Length; i++)
-                //{
-                //    manual = manual.Replace(escapeChars[i], targetChars[i]);
-                //}
-
                 returnObj += createManualFile.Replace("@filePath", basePath + createFolder.Name + "\\" + package.FolderInstructionsDefaultFileNameValidated()).Replace("@fileContent", manual);
             }
 
