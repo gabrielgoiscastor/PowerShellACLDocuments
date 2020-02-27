@@ -51,10 +51,10 @@ namespace PowerShellACLDocuments.Scripting
             string fullPath = basePath + createFolder.Name + @"\";
 
             // create intructions
-            if(string.IsNullOrEmpty(createFolder.FolderInstructions) == false && package.FolderInstructionsDefaultFileNameValidated() != ".txt")
-            {
-                returnObj += createManualFile.Replace("@filePath", basePath + createFolder.Name + "\\" + package.FolderInstructionsDefaultFileNameValidated()).Replace("@fileContent", createFolder.FolderInstructions);
-            }
+            //if(string.IsNullOrEmpty(createFolder.FolderInstructions) == false && package.FolderInstructionsDefaultFileNameValidated() != ".txt")
+            //{
+            //    returnObj += createManualFile.Replace("@filePath", basePath + createFolder.Name + "\\" + package.FolderInstructionsDefaultFileNameValidated()).Replace("@fileContent", createFolder.FolderInstructions.Replace("\n\r","\\n\\r"));
+            //}
 
             // create actions
             if (createFolder.Actions != null)
